@@ -21,12 +21,12 @@ public:
 	string solve();
 	bool isSolved(const std::vector<std::vector<int>> &data);
 	struct State{
-		int currentState[17][17];
+		int currentState[20][20];
 	};
 private:
 	int px,py;
-	std::vector<std::vector<int>> sState{ 17,std::vector<int>(17,-1) };
-	std::vector<std::vector<int>> dState{ 17,std::vector<int>(17,-1) };
+	std::vector<std::vector<int>> sState{ 20,std::vector<int>(20,-1) };
+	std::vector<std::vector<int>> dState{ 20,std::vector<int>(20,-1) };
 
 };
 

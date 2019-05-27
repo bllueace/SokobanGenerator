@@ -40,7 +40,7 @@ private:
 	Solver solver;
 	int playerInp;
 	sf::Text playerText;
-	std::vector<std::vector<int>> levelData{ 17,std::vector<int>(17,-1) };
+	std::vector<std::vector<int>> levelData{ 20,std::vector<int>(20,-1) };
 
 	bool pressed;
 };

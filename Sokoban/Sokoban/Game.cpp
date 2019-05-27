@@ -18,23 +18,23 @@ Game::Game(sf::RenderWindow* hwnd, Input* in)
 	level.print();
 
 	//change the 2d array to normal array in order to acces tilemap
-	int set[289];
+	int set[400];
 	int count = 0;
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		for (int j = 0; j < 17; j++)
+		for (int j = 0; j < 20; j++)
 		{
 			set[count] = level.getContent(i, j);
 			count++;
 		}
 	}
 	//load tilemap from an array
-	if (!map.load("tileset.png", sf::Vector2u(32, 32), set, 17, 17))
+	if (!map.load("tileset.png", sf::Vector2u(32, 32), set, 20, 20))
 		return;
 
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		for (int j = 0; j < 17; j++)
+		for (int j = 0; j < 20; j++)
 		{
 			levelData[i][j] = level.getContent(i, j);
 		}
