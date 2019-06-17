@@ -19,6 +19,7 @@ public:
 	char getGenLevel(int i, int j);
 	bool checkShapeFit(char a[][5], int m, int n);
 	bool canFit(char level[][20], char piece[][5], int startX, int startY, int hight, int width, int size);
+	bool contFloor(char level[][20]);
 private:
 	char emptyLevel[20][20];
 	templateShapes templates;

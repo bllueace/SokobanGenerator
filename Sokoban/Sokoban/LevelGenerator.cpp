@@ -1,6 +1,7 @@
 #include "LevelGenerator.h"
 #include <vcruntime_string.h>
 #include <xutility>
+#include <queue>
 
 LevelGenerator::LevelGenerator()
 {
@@ -14,7 +15,7 @@ LevelGenerator::LevelGenerator()
 		}
 	}
 	//set generated level size
-	generateLevel(17,17);
+	generateLevel(6,6);
 }
 
 LevelGenerator::~LevelGenerator()
@@ -86,14 +87,14 @@ void LevelGenerator::generateLevel(int height, int width)
 
 		count++;
 		if (count > 1000000)
-			return;
+		return;
 	}
 }
 
 void LevelGenerator::getRandomShape()
 {
 	shape = rand() % 17 + 1;
-	//shape = 7;
+	//shape = 17;
 	//choose x shape
 	switch (shape)
 	{
@@ -170,7 +171,12 @@ void LevelGenerator::getRandomShape()
 
 char LevelGenerator::getGenLevel(int i,int j)
 {
+	//if (contFloor(emptyLevel))
+	//{
+	//	return emptyLevel[i][j];
+	//}
 	return emptyLevel[i][j];
+
 }
 
 bool LevelGenerator::checkShapeFit(char a[][5], int m, int n)
@@ -187,25 +193,22 @@ bool LevelGenerator::checkShapeFit(char a[][5], int m, int n)
 			}
 		}
 	}
-
-
-
 	return true;
 }
 
 bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int startY, int hight, int width, int size)
 {
-	bool copy = true;
+	bool fit = true;
 	//check top
 	for (int i = 0; i < size; i++)
 	{
 		if (startY + i < width)
 		{
-			if (level[startX][startY + i] != '0')
+			if (level[startX][startY + i] != ' ')
 			{
 				if (level[startX][startY + i] != piece[0][i])
 				{
-					copy = false;
+					fit = false;
 				}
 			}
 		}
@@ -215,11 +218,11 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 	{
 		if (startX + i < hight)
 		{
-			if (level[startX + i][startY] != '0')
+			if (level[startX + i][startY] != ' ')
 			{
-				if (level[startX + i][startY] != piece[0][i])
+				if (level[startX + i][startY] != piece[i][0])
 				{
-					copy = false;
+					fit = false;
 				}
 			}
 		}
@@ -231,11 +234,11 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 		{
 			if (startY + i < width)
 			{
-				if (level[startX + 4][startY+i] != '0')
+				if (level[startX + 4][startY+i] != ' ')
 				{
 					if (level[startX + 4][startY+i] != piece[4][i])
 					{
-						copy = false;
+						fit = false;
 					}
 				}
 			}
@@ -248,15 +251,125 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 		{
 			if (startX + i < hight)
 			{
-				if (level[startX + i][startY + 4] != '0')
+				if (level[startX + i][startY + 4] != ' ')
 				{
 					if (level[startX + i][startY + 4] != piece[i][4])
 					{
-						copy = false;
+						fit = false;
 					}
 				}
 			}
 		}
 	}
-	return copy;
+	return fit;
+}
+
+bool LevelGenerator::contFloor(char level[][20])
+{
+	bool valid = true;
+	queue<int> xp;
+	queue<int> yp;
+	queue<queue<int>> que;
+	int count = 1;
+
+	int test[6][6];
+
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			test[i][j] = 0;
+		}
+	}
+
+	for (int x = 0; x < 6; x++)
+	{
+		for (int y = 0; y < 6; y++)
+		{
+			if (level[x][y] == '#')
+			{
+				if (test[x][y] == 0)
+				{
+					xp.push(x);
+					yp.push(y);
+					test[x][y] = count;
+				}
+				while (!xp.empty() && !yp.empty())
+				{
+					int i = xp.back();
+					int j = yp.back();
+					////////////////
+					if (i + 1 < 6)
+					{
+						if (level[i + 1][j] == '#')
+						{
+							if (test[i + 1][j] == 0)
+							{
+								xp.push(i + 1);
+								yp.push(j);
+								test[i + 1][j] = count;
+							}
+						}
+					}
+					////////////
+					if (j + 1 < 6)
+					{
+						if (level[i][j + 1] == '#')
+						{
+							if (test[i][j + 1] == 0)
+							{
+								xp.push(i);
+								yp.push(j + 1);
+								test[i][j+1] = count;
+							}
+						}
+					}
+					////////////
+					if (j - 1 >= 0)
+					{
+						if (level[i][j - 1] == '#')
+						{
+							if (test[i][j - 1] == 0)
+							{
+								xp.push(i);
+								yp.push(j - 1);
+								test[i][j - 1] = count;
+							}
+						}
+					}
+
+					////////////////
+					if (i - 1 < 0)
+					{
+						if (level[i - 1][j] == '#')
+						{
+							if (test[i - 1][j] == 0)
+							{
+								xp.push(i - 1);
+								yp.push(j);
+								test[i - 1][j] = count;
+							}
+						}
+					}
+
+					count++;
+				}
+			}
+		}
+
+
+	}
+
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			if (i > 1)
+			{
+				valid = false;
+			}
+		}
+	}
+
+	return valid;
 }
