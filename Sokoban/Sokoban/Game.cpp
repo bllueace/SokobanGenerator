@@ -11,13 +11,40 @@ Game::Game(sf::RenderWindow* hwnd, Input* in)
 	//	MessageBox(NULL, L"Failed to load font", L"Error", MB_OK);
 	//}
 
+	initialiseLevel();
+}
+
+GameState Game::getState()
+{
+	return state;
+}
+
+void Game::handleInput()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && pressed == false)
+	{
+		cout << "Solving..." << endl;
+		std::cout << solver.solve() << std::endl;
+		pressed = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && pressed == false)
+	{
+		cout << "Generating new layout..." << endl;
+		level.initialize(99);
+		pressed = true;
+	}
+}
+
+void Game::initialiseLevel()
+{
 	cout << "Please enter which level to play (1-5): ";
-	cin >> playerInp; 
+
+	//cin >> playerInp;
 
 	level.initialize(playerInp);
 	level.print();
 
-	//change the 2d array to normal array in order to acces tilemap
+	//change the 2d array to normal array in order to access tilemap
 	int set[400];
 	int count = 0;
 	for (int i = 0; i < 20; i++)
@@ -41,19 +68,6 @@ Game::Game(sf::RenderWindow* hwnd, Input* in)
 	}
 
 	solver.getCurrentState(levelData);
-}
-GameState Game::getState()
-{
-	return state;
-}
-void Game::handleInput()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && pressed == false)
-	{
-		cout << "Solving..." << endl;
-		std::cout << solver.solve() << std::endl;
-		pressed = true;
-	}
 }
 
 void Game::update(float deltaTime)

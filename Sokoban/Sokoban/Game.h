@@ -21,6 +21,7 @@ public:
 	void getSolutionString(string sol);
 	void runSolution();
 	void handleInput();
+	void initialiseLevel();
 	void update(float deltaTime);
 	GameState getState();
 	void render();
@@ -38,7 +39,7 @@ private:
 	TileMap map;
 	Level level;
 	Solver solver;
-	int playerInp;
+	int playerInp = 99;
 	sf::Text playerText;
 	std::vector<std::vector<int>> levelData{ 20,std::vector<int>(20,-1) };
 

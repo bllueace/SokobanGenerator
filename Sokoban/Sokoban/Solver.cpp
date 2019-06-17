@@ -35,7 +35,7 @@ bool Solver::push(int x, int y, int dx, int dy, std::vector<std::vector<int>> &d
 
 	data[y][x] = 0;
 	data[y + dy][x + dx] = 4;
-	data[y + 2 * dy][x + 2 * dx] = 2;// was *
+	data[y + 2 * dy][x + 2 * dx] = 2;// was 0
 	return true;
 }
 //checks for solve state
@@ -60,9 +60,8 @@ string Solver::solve() {
 		{
 			if (sState[i][j] == 4)
 			{
-				px = i;
-				py = j;
-
+				py = i;
+				px = j;
 			}
 		}
 	}

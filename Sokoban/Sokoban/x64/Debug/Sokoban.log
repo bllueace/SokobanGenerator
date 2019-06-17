@@ -57,21 +57,8 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           ]
   Level.cpp
   LevelGenerator.cpp
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(81): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(84): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(87): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(90): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(93): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(96): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(99): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(102): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(105): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(108): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(111): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(114): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(117): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(120): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(123): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Solver.cpp
   main.cpp
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(32): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
           with
@@ -129,6 +116,5 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           [
               T=float
           ]
-  Solver.cpp
   Generating Code...
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe
