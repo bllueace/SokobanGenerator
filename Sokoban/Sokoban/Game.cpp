@@ -29,20 +29,25 @@ void Game::handleInput()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && pressed == false)
 	{
+		//cout << "Generating new layout..." << endl;
+		initialiseLevel();
+		//pressed = true;
+	}
+	if (event.key.code == sf::Keyboard::G)
+	{
 		cout << "Generating new layout..." << endl;
-		level.initialize(99);
-		pressed = true;
+		initialiseLevel();
+		//pressed = true;
 	}
 }
 
 void Game::initialiseLevel()
 {
-	cout << "Please enter which level to play (1-5): ";
-
+	//cout << "Please enter which level to play (1-5): " << endl;
 	//cin >> playerInp;
 
 	level.initialize(playerInp);
-	level.print();
+	//level.print();
 
 	//change the 2d array to normal array in order to access tilemap
 	int set[400];

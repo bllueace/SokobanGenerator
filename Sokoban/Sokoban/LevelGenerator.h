@@ -1,30 +1,40 @@
 #pragma once
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
+#include <stdlib.h>
+#include <time.h> 
 #include "levelTemplates.h"
 #include <list>
 #include <algorithm>
 #include <iostream>
+
+const int tempX = 6;
+const int tempY = 6;
+const int numBoxGoal = 2;
+
 using namespace std;
 class LevelGenerator
 {
 public:
 	LevelGenerator();
 	~LevelGenerator();
-	void rotate90(char arr[][5]);
-	void flipShapeR(char arr[][5]);
-	void flipShapeU(char arr[][5]);
+	void makeLevel();
+	int random(int min, int max);
+	void print();
+	void rotate90(array<array<char, 5>, 5> arr);
+	void flipShapeR(array<array<char, 5>, 5> arr);
+	void flipShapeU(array<array<char, 5>, 5> arr);
 	void generateLevel(int height, int width);
 	void getRandomShape();
 	char getGenLevel(int i, int j);
-	bool checkShapeFit(char a[][5], int m, int n);
-	bool canFit(char level[][20], char piece[][5], int startX, int startY, int hight, int width, int size);
-	bool contFloor(char level[][20]);
+	bool checkShapeFit(array<array<char, 5>, 5> arr, int m, int n);
+	bool canFit(array<array<char, 20>, 20> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size);
+	bool contFloor(array<array<char, 20>, 20> level);
+	void addPlayer();
+	void addGoals(int numGoals);
+	void addBoxes(int numBox);
 private:
-	char emptyLevel[20][20];
-	templateShapes templates;
-	char temp[5][5];
-	//char temp2[5][5];
+	array<array<char, 20>, 20> emptyLevel;
+	templateShapes* templates;
+	array<array<char, 5>, 5> temp;
 	int blockPosX = 0;
 	int blockPosY = 0;
 	int shape = 0;

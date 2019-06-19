@@ -44,5 +44,6 @@ private:
 	std::vector<std::vector<int>> levelData{ 20,std::vector<int>(20,-1) };
 
 	bool pressed;
+	sf::Event event;
 };
 

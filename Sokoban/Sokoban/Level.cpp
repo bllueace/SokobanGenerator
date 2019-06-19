@@ -78,7 +78,7 @@ void Level::initialize(int level)
 	//if (level == 99)
 	//{
 		testLevel = new LevelGenerator;
-
+		testLevel->makeLevel();
 		for (int i = 0; i < XWIDE; i++)
 		{
 			for (int j = 0; j < YWIDE; j++)

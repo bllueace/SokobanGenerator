@@ -2,11 +2,96 @@
 #include <vcruntime_string.h>
 #include <xutility>
 #include <queue>
+#include <iomanip>
 
 LevelGenerator::LevelGenerator()
 {
+	templates = new templateShapes;
 	srand(time(NULL));
-	//initialize the entire array
+	//makeLevel();
+}
+
+
+
+LevelGenerator::~LevelGenerator()
+{
+}
+
+void LevelGenerator::makeLevel()
+{
+	//set generated level size
+	generateLevel(tempX, tempY);
+	//if (contFloor(emptyLevel))
+	//{
+	addPlayer();
+	addGoals(numBoxGoal);
+	addBoxes(numBoxGoal);
+	print();
+	//}
+	//else
+	//cout << "Bad Level." << endl;
+}
+
+int LevelGenerator::random(int min, int max)
+{
+	static bool first = true;
+	if (first)
+	{
+		srand(time(NULL)); //seeding for the first time only!
+		first = false;
+	}
+	return min + rand() % ((max + 1) - min);
+}
+
+void LevelGenerator::print() 
+{
+	const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			cout << setw(2);
+			cout << emptyLevel[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+//rotates an 2d array 
+void LevelGenerator::rotate90(array<array<char, 5>, 5> arr)
+{
+	array<array<char, 5>, 5> result;
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
+			result[i][j] = arr[5 - j - 1][i];
+	temp.swap(result);
+	//memcpy(temp, result, sizeof temp);
+}
+//flip the array up
+void LevelGenerator::flipShapeU(array<array<char, 5>, 5> arr)
+{
+	array<array<char, 5>, 5> result;
+	for (int i = 0; i < 5; i++)
+		for (int y = 0; y < 5; y++)
+			result[i][y] = arr[5 - i - 1][y];
+
+	temp.swap(result);
+	//memcpy(temp, result, sizeof temp);
+}
+//flip the array right
+void LevelGenerator::flipShapeR(array<array<char, 5>, 5> arr)
+{
+	array<array<char, 5>, 5> result;
+	for (int i = 0; i < 5; i++)
+		for (int y = 0; y < 5; y++)
+			result[i][y] = arr[i][5 - y - 1];
+
+	temp.swap(result);
+	//memcpy(temp, result, sizeof temp);
+}
+
+void LevelGenerator::generateLevel(int height, int width)
+{
+	//initialize the array
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 20; j++)
@@ -14,46 +99,7 @@ LevelGenerator::LevelGenerator()
 			emptyLevel[i][j] = '0';
 		}
 	}
-	//set generated level size
-	generateLevel(6,6);
-}
 
-LevelGenerator::~LevelGenerator()
-{
-}
-//rotates an 2d array 
-void LevelGenerator::rotate90(char arr[][5])
-{
-	char result[5][5];
-	for (int i = 0; i < 5; i++)
-		for (int j = 0; j < 5; j++)
-			result[i][j] = arr[5 - j - 1][i];
-
-	memcpy(temp, result, sizeof temp);
-}
-//flip the array up
-void LevelGenerator::flipShapeU(char arr[][5])
-{
-	char result[5][5];
-	for (int i = 0; i < 5; i++)
-		for (int y = 0; y < 5; y++)
-			result[i][y] = arr[5 - i - 1][y];
-
-	memcpy(temp, result, sizeof temp);
-}
-//flip the array right
-void LevelGenerator::flipShapeR(char arr[][5])
-{
-	char result[5][5];
-	for (int i = 0; i < 5; i++)
-		for (int y = 0; y < 5; y++)
-			result[i][y] = arr[i][5 - y - 1];
-
-	memcpy(temp, result, sizeof temp);
-}
-
-void LevelGenerator::generateLevel(int height, int width)
-{
 	int count = 0;
 	while (true)
 	{
@@ -86,7 +132,8 @@ void LevelGenerator::generateLevel(int height, int width)
 			return;
 
 		count++;
-		if (count > 1000000)
+		//return if cant find a suitable shape
+		if (count > 10000)
 		return;
 	}
 }
@@ -94,71 +141,90 @@ void LevelGenerator::generateLevel(int height, int width)
 void LevelGenerator::getRandomShape()
 {
 	shape = rand() % 17 + 1;
-	//shape = 17;
-	//choose x shape
+	//shape = 7;
 	switch (shape)
 	{
 	case 1:
-		memcpy(temp, templates.shape1, sizeof templates.shape1);
+		//memcpy(temp, templates.shape1, sizeof templates.shape1);
+		temp.swap(templates->shape1);
 		break;
 	case 2:
-		memcpy(temp, templates.shape2, sizeof templates.shape2);
+		//memcpy(temp, templates.shape2, sizeof templates.shape2);
+		temp.swap(templates->shape2);
+
 		break;
 	case 3:
-		memcpy(temp, templates.shape3, sizeof templates.shape3);
+		// memcpy(temp, templates.shape2, sizeof templates.shape2);
+		temp.swap(templates->shape3);
+
 		break;
 	case 4:
-		memcpy(temp, templates.shape4, sizeof templates.shape4);
+		//memcpy(temp, templates.shape4, sizeof templates.shape4);
+		temp.swap(templates->shape4);
 		break;
 	case 5:
-		memcpy(temp, templates.shape5, sizeof templates.shape5);
+		//memcpy(temp, templates.shape5, sizeof templates.shape5);
+		temp.swap(templates->shape5);
 		break;
 	case 6:
-		memcpy(temp, templates.shape6, sizeof templates.shape6);
+		//memcpy(temp, templates.shape6, sizeof templates.shape6);
+		temp.swap(templates->shape6);
 		break;
 	case 7:
-		memcpy(temp, templates.shape7, sizeof templates.shape7);
+		//memcpy(temp, templates.shape7, sizeof templates.shape7);
+		temp.swap(templates->shape7);
 		break;
 	case 8:
-		memcpy(temp, templates.shape8, sizeof templates.shape8);
+		//memcpy(temp, templates.shape8, sizeof templates.shape8);
+		temp.swap(templates->shape8);
 		break;
 	case 9:
-		memcpy(temp, templates.shape9, sizeof templates.shape9);
+		//memcpy(temp, templates.shape9, sizeof templates.shape9);
+		temp.swap(templates->shape9);
 		break;
 	case 10:
-		memcpy(temp, templates.shape10, sizeof templates.shape10);
+		//memcpy(temp, templates.shape10, sizeof templates.shape10);
+		temp.swap(templates->shape10);
 		break;
 	case 11:
-		memcpy(temp, templates.shape11, sizeof templates.shape11);
+		//memcpy(temp, templates.shape11, sizeof templates.shape11);
+		temp.swap(templates->shape11);
 		break;
 	case 12:
-		memcpy(temp, templates.shape12, sizeof templates.shape12);
+		//memcpy(temp, templates.shape12, sizeof templates.shape12);
+		temp.swap(templates->shape12);
 		break;
 	case 13:
-		memcpy(temp, templates.shape13, sizeof templates.shape13);
+		//memcpy(temp, templates.shape13, sizeof templates.shape13);
+		temp.swap(templates->shape13);
 		break;
 	case 14:
-		memcpy(temp, templates.shape14, sizeof templates.shape14);
+		//memcpy(temp, templates.shape14, sizeof templates.shape14);
+		temp.swap(templates->shape14);
 		break;
 	case 15:
-		memcpy(temp, templates.shape15, sizeof templates.shape15);
+		//memcpy(temp, templates.shape15, sizeof templates.shape15);
+		temp.swap(templates->shape15);
 		break;
 	case 16:
-		memcpy(temp, templates.shape16, sizeof templates.shape16);
+		//memcpy(temp, templates.shape16, sizeof templates.shape16);
+		temp.swap(templates->shape16);
 		break;
 	case 17:
-		memcpy(temp, templates.shape17, sizeof templates.shape17);
+		//memcpy(temp, templates.shape17, sizeof templates.shape17);
+		temp.swap(templates->shape17);
 		break;
 	}
 
+
 	//rotate x times
-	int rnd = rand() % 3 + 1;
+	int rnd = random(0, 4);
 	for (int r = 0; r < rnd; r++)
 	{
 		rotate90(temp);
 	}
 	//flip x direction
-	rnd = rand() % 3;
+	rnd = random(0, 3);
 	if (rnd == 1)
 	{
 		flipShapeR(temp);
@@ -175,17 +241,18 @@ char LevelGenerator::getGenLevel(int i,int j)
 	//{
 	//	return emptyLevel[i][j];
 	//}
+//	contFloor(emptyLevel);
 	return emptyLevel[i][j];
 
 }
 
-bool LevelGenerator::checkShapeFit(char a[][5], int m, int n)
+bool LevelGenerator::checkShapeFit(array<array<char, 5>, 5> arr, int m, int n)
 {
 	list<int> x;
 	list<int> y;
 	for (int i = 0; i < m; i++) {
 		for (int j = 0; j < n; j++) {
-			if ((i == 0 || j == 0 || i == n - 1 || j == n - 1) && (a[i][j] == ' '))
+			if ((i == 0 || j == 0 || i == n - 1 || j == n - 1) && (arr[i][j] == ' '))
 			{
 				x.push_front(i);
 				y.push_front(j);
@@ -196,7 +263,7 @@ bool LevelGenerator::checkShapeFit(char a[][5], int m, int n)
 	return true;
 }
 
-bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int startY, int hight, int width, int size)
+bool LevelGenerator::canFit(array<array<char, 20>, 20> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size)
 {
 	bool fit = true;
 	//check top
@@ -206,7 +273,7 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 		{
 			if (level[startX][startY + i] != ' ')
 			{
-				if (level[startX][startY + i] != piece[0][i])
+				if (level[startX][startY + i] != arr[0][i])
 				{
 					fit = false;
 				}
@@ -220,7 +287,7 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 		{
 			if (level[startX + i][startY] != ' ')
 			{
-				if (level[startX + i][startY] != piece[i][0])
+				if (level[startX + i][startY] != arr[i][0])
 				{
 					fit = false;
 				}
@@ -236,7 +303,7 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 			{
 				if (level[startX + 4][startY+i] != ' ')
 				{
-					if (level[startX + 4][startY+i] != piece[4][i])
+					if (level[startX + 4][startY+i] != arr[4][i])
 					{
 						fit = false;
 					}
@@ -253,7 +320,7 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 			{
 				if (level[startX + i][startY + 4] != ' ')
 				{
-					if (level[startX + i][startY + 4] != piece[i][4])
+					if (level[startX + i][startY + 4] != arr[i][4])
 					{
 						fit = false;
 					}
@@ -264,90 +331,87 @@ bool LevelGenerator::canFit(char level[][20], char piece[][5], int startX, int s
 	return fit;
 }
 
-bool LevelGenerator::contFloor(char level[][20])
+bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
 {
 	bool valid = true;
-	queue<int> xp;
-	queue<int> yp;
-	queue<queue<int>> que;
+	//queue<int> xp;
+	//queue<int> yp;
+	queue<tuple<int, int>> que;
 	int count = 1;
 
-	int test[6][6];
+	//const int tempX = std::extent<decltype(level), 0>::value;
+	//const int tempY = std::extent<decltype(level), 1>::value;
 
-	for (int i = 0; i < 6; i++)
+	array<array<char, 6>, 6> test;
+
+	for (int i = 0; i < tempX; i++)
 	{
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < tempY; j++)
 		{
-			test[i][j] = 0;
+			test[i][j] = ' ';
 		}
 	}
 
-	for (int x = 0; x < 6; x++)
+	for (int x = 0; x < tempX; x++)
 	{
-		for (int y = 0; y < 6; y++)
+		for (int y = 0; y < tempY; y++)
 		{
 			if (level[x][y] == '#')
 			{
-				if (test[x][y] == 0)
+				if (test[x][y] == ' ')
 				{
-					xp.push(x);
-					yp.push(y);
+					que.push(make_tuple(x, y));
 					test[x][y] = count;
 				}
-				while (!xp.empty() && !yp.empty())
+				while (!que.empty())
 				{
-					int i = xp.back();
-					int j = yp.back();
+					tuple<int, int>xy = que.front(); 
+					que.pop();
 					////////////////
-					if (i + 1 < 6)
+					if (get<0>(xy) + 1 < tempX)
 					{
-						if (level[i + 1][j] == '#')
+						if (level[get<0>(xy) + 1][get<1>(xy)] == '#')
 						{
-							if (test[i + 1][j] == 0)
+							if (test[get<0>(xy) + 1][get<1>(xy)] == ' ')
 							{
-								xp.push(i + 1);
-								yp.push(j);
-								test[i + 1][j] = count;
+								que.push(make_tuple(get<0>(xy) + 1, get<1>(xy)));
+								test[get<0>(xy) + 1][get<1>(xy)] = count;
 							}
 						}
 					}
 					////////////
-					if (j + 1 < 6)
+					if (get<1>(xy) + 1 < tempY)
 					{
-						if (level[i][j + 1] == '#')
+						if (level[get<0>(xy)][get<1>(xy) + 1] == '#')
 						{
-							if (test[i][j + 1] == 0)
+							if (test[get<0>(xy)][get<1>(xy) + 1] == ' ')
 							{
-								xp.push(i);
-								yp.push(j + 1);
-								test[i][j+1] = count;
+								que.push(make_tuple(get<0>(xy), get<1>(xy) + 1));
+								test[get<0>(xy)][get<1>(xy) +1] = count;
 							}
 						}
 					}
 					////////////
-					if (j - 1 >= 0)
+					if (get<1>(xy) - 1 >= 0)
 					{
-						if (level[i][j - 1] == '#')
+						if (level[get<0>(xy)][get<1>(xy) - 1] == '#')
 						{
-							if (test[i][j - 1] == 0)
+							if (test[get<0>(xy)][get<1>(xy) - 1] == ' ')
 							{
-								xp.push(i);
-								yp.push(j - 1);
-								test[i][j - 1] = count;
+								que.push(make_tuple(get<0>(xy), get<1>(xy) - 1));
+								test[get<0>(xy)][get<1>(xy) - 1] = count;
 							}
 						}
 					}
-
 					////////////////
-					if (i - 1 < 0)
+					if (get<0>(xy) - 1 < 0)
 					{
-						if (level[i - 1][j] == '#')
+						if (level[get<0>(xy) - 1][get<1>(xy)] == '#')
 						{
-							if (test[i - 1][j] == 0)
+							if (test[get<0>(xy) - 1][get<1>(xy)] == ' ')
 							{
-								xp.push(i - 1);
-								yp.push(j);
-								test[i - 1][j] = count;
+								que.push(make_tuple(get<0>(xy) - 1, get<1>(xy)));
+								test[get<0>(xy) - 1][get<1>(xy)] = count;
 							}
 						}
 					}
@@ -355,21 +419,85 @@ bool LevelGenerator::contFloor(char level[][20])
 					count++;
 				}
 			}
+
 		}
-
-
-	}
-
-	for (int i = 0; i < 6; i++)
-	{
-		for (int j = 0; j < 6; j++)
+		for (int i = 0; i < tempX; i++)
 		{
-			if (i > 1)
+			for (int j = 0; j < tempX; j++)
 			{
-				valid = false;
+				if (i > 1)
+				{
+					valid = false;
+				}
 			}
 		}
 	}
 
 	return valid;
+}
+
+void LevelGenerator::addPlayer()
+{
+	const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	bool placed = false;
+
+	while (!placed)
+	{
+		int x = random(1, tempX);
+		int y = random(1, tempY);
+		if (emptyLevel[x][y] == ' ')
+		{
+			placed = true;
+			emptyLevel[x][y] = '@';
+		}
+	}
+}
+
+void LevelGenerator::addGoals(int numGoals)
+{
+	const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	bool placed = false;
+	int count = 0;
+	while (!placed)
+	{
+		int x = random(1, tempX - 1);
+		int y = random(1, tempY - 1);
+
+		if (emptyLevel[x][y] == ' ')
+		{
+			emptyLevel[x][y] = '.';
+			numGoals--;
+
+			if (numGoals <= 0)
+			{
+				placed = true;
+			}
+		}
+	}
+}
+
+void LevelGenerator::addBoxes(int numBox)
+{
+	const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	bool placed = false;
+	int count = 0;
+	while (!placed)
+	{
+		int x = random(1, tempX - 2);
+		int y = random(1, tempY - 2);
+
+		if (emptyLevel[x][y] == ' ')
+		{
+			emptyLevel[x][y] = '$';
+			numBox--;
+
+			if (numBox <= 0)
+			{
+				placed = true;
+			}
+		}
+	}
 }

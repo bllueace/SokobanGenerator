@@ -56,6 +56,9 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
               T=float
           ]
   Level.cpp
+  LevelGenerator.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(10): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(40): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Solver.cpp
   main.cpp
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(32): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
