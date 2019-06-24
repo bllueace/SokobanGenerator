@@ -45,5 +45,6 @@ private:
 
 	bool pressed;
 	sf::Event event;
+
 };
 

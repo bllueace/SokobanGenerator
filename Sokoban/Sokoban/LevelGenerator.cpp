@@ -8,28 +8,41 @@ LevelGenerator::LevelGenerator()
 {
 	templates = new templateShapes;
 	srand(time(NULL));
-	//makeLevel();
 }
-
-
 
 LevelGenerator::~LevelGenerator()
 {
+	delete templates;
 }
 
 void LevelGenerator::makeLevel()
 {
-	//set generated level size
-	generateLevel(tempX, tempY);
-	//if (contFloor(emptyLevel))
+	//bool valid = false;;
+	////set generated level size
+LOOP:generateLevel(tempX, tempY);
+
+	if (contFloor2(emptyLevel))
+	{
+		addPlayer();
+		addGoals(numBoxGoal);
+		addBoxes(numBoxGoal);
+		print(emptyLevel);
+	}
+	else
+	{
+		cout << "Bad Level..." << endl;
+		//goto LOOP;
+	}
+
+	//do
 	//{
-	addPlayer();
-	addGoals(numBoxGoal);
-	addBoxes(numBoxGoal);
-	print();
-	//}
-	//else
-	//cout << "Bad Level." << endl;
+	//	generateLevel(tempX, tempY);
+	//} while (!contFloor2(emptyLevel));
+
+	//addPlayer();
+	//addGoals(numBoxGoal);
+	//addBoxes(numBoxGoal);
+	//print(emptyLevel);
 }
 
 int LevelGenerator::random(int min, int max)
@@ -43,15 +56,15 @@ int LevelGenerator::random(int min, int max)
 	return min + rand() % ((max + 1) - min);
 }
 
-void LevelGenerator::print() 
+void LevelGenerator::print(array<array<char, 20>, 20> level)
 {
-	const int rows = std::extent<decltype(emptyLevel), 0>::value;
-	const int cols = std::extent<decltype(emptyLevel), 1>::value;
-
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
+	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	//const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	system("CLS");
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
 			cout << setw(2);
-			cout << emptyLevel[i][j] << " ";
+			cout << level[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -99,7 +112,6 @@ void LevelGenerator::generateLevel(int height, int width)
 			emptyLevel[i][j] = '0';
 		}
 	}
-
 	int count = 0;
 	while (true)
 	{
@@ -125,7 +137,8 @@ void LevelGenerator::generateLevel(int height, int width)
 			if (blockPosX > height - 1)
 			{
 				blockPosY += 3;
-				blockPosX = 0;
+				blockPosX = 1
+					;
 			}
 		}
 		if (blockPosY > width - 1)
@@ -134,7 +147,7 @@ void LevelGenerator::generateLevel(int height, int width)
 		count++;
 		//return if cant find a suitable shape
 		if (count > 10000)
-		return;
+			generateLevel(tempX, tempY);
 	}
 }
 
@@ -334,15 +347,13 @@ bool LevelGenerator::canFit(array<array<char, 20>, 20> level, array<array<char, 
 bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
 {
 	bool valid = true;
-	//queue<int> xp;
-	//queue<int> yp;
 	queue<tuple<int, int>> que;
 	int count = 1;
 
-	//const int tempX = std::extent<decltype(level), 0>::value;
-	//const int tempY = std::extent<decltype(level), 1>::value;
+	const int tempX = std::extent<decltype(level), 0>::value;
+	const int tempY = std::extent<decltype(level), 1>::value;
 
-	array<array<char, 6>, 6> test;
+	array<array<char, tempX>, tempY> test;
 
 	for (int i = 0; i < tempX; i++)
 	{
@@ -421,9 +432,14 @@ bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
 			}
 
 		}
-		for (int i = 0; i < tempX; i++)
+
+		if (que.size() > 1)
 		{
-			for (int j = 0; j < tempX; j++)
+			valid = false;
+		}
+		for (int i = 0; i < 20; i++)
+		{
+			for (int j = 0; j < 20; j++)
 			{
 				if (i > 1)
 				{
@@ -436,10 +452,85 @@ bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
 	return valid;
 }
 
+bool LevelGenerator::contFloor2(array<array<char, 20>, 20> level)
+{
+	for (int i = 0; i <= tempX+1; i++)
+	{
+		for (int j = 0; j <= tempY+1; j++)
+		{
+			switch (level[i][j])
+			{
+			case '#': //walls
+				lev[i][j] = -2;
+				break;
+			case ' ': //Empty
+				lev[i][j] = -1;
+				break;
+			case '0':
+				lev[i][j] = -9;
+			}
+		}
+	}
+
+	for (int i = 0; i <= tempX + 1; i++)
+	{
+		for (int j = 0; j <= tempY + 1; j++)
+		{
+			if (lev[i][j] == -1)
+			{
+				lev[i][j] = 0;
+				goto LOOP;
+			}
+		}
+	}
+
+	LOOP:for (int i = 0; i < (tempX + tempY); i++)
+	{
+		for (int i = 0; i <= tempX; i++) {
+			for (int j = 0; j <= tempY; j++)
+			{
+				if (lev[i][j] == counter)
+				{
+					fillout(i + 1, j, counter + 1);
+					fillout(i - 1, j, counter + 1);
+					fillout(i, j + 1, counter + 1);
+					fillout(i, j - 1, counter + 1);
+
+				}
+			}
+		}
+		counter++;
+	}
+
+		 //see if there are any univisted cells left/ if so then return false
+		 for (int i = 0; i <= tempX + 1; i++)
+		 {
+			 for (int j = 0; j <= tempY + 1; j++)
+			 {
+				 if (lev[i][j] == -1)
+				 {
+					 return false;
+				 }
+			 }
+		 }
+
+//	system("CLS");
+//	print(lev);
+	return true;
+}
+
+void LevelGenerator::fillout(int x, int y, int value)
+{
+	if ((x >= 0) && (y >= 0) && (x < tempX+1) && (y < tempY+1) && (lev[x][y] == -1))
+	{
+		lev[x][y] = value;
+	}
+}
+
 void LevelGenerator::addPlayer()
 {
-	const int rows = std::extent<decltype(emptyLevel), 0>::value;
-	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	//const int cols = std::extent<decltype(emptyLevel), 1>::value;
 	bool placed = false;
 
 	while (!placed)
@@ -456,8 +547,8 @@ void LevelGenerator::addPlayer()
 
 void LevelGenerator::addGoals(int numGoals)
 {
-	const int rows = std::extent<decltype(emptyLevel), 0>::value;
-	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	//const int cols = std::extent<decltype(emptyLevel), 1>::value;
 	bool placed = false;
 	int count = 0;
 	while (!placed)
@@ -480,10 +571,10 @@ void LevelGenerator::addGoals(int numGoals)
 
 void LevelGenerator::addBoxes(int numBox)
 {
-	const int rows = std::extent<decltype(emptyLevel), 0>::value;
-	const int cols = std::extent<decltype(emptyLevel), 1>::value;
+	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
+	//const int cols = std::extent<decltype(emptyLevel), 1>::value;
 	bool placed = false;
-	int count = 0;
+	//int count = 0;
 	while (!placed)
 	{
 		int x = random(1, tempX - 2);

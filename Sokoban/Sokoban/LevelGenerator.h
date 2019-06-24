@@ -18,7 +18,7 @@ public:
 	~LevelGenerator();
 	void makeLevel();
 	int random(int min, int max);
-	void print();
+	void print(array<array<char, 20>, 20> level);
 	void rotate90(array<array<char, 5>, 5> arr);
 	void flipShapeR(array<array<char, 5>, 5> arr);
 	void flipShapeU(array<array<char, 5>, 5> arr);
@@ -28,14 +28,18 @@ public:
 	bool checkShapeFit(array<array<char, 5>, 5> arr, int m, int n);
 	bool canFit(array<array<char, 20>, 20> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size);
 	bool contFloor(array<array<char, 20>, 20> level);
+	bool contFloor2(array<array<char, 20>, 20> level);
+	void fillout(int x, int y, int value);
 	void addPlayer();
 	void addGoals(int numGoals);
 	void addBoxes(int numBox);
 private:
 	array<array<char, 20>, 20> emptyLevel;
+	array<array<int, 20>, 20> lev;
 	templateShapes* templates;
 	array<array<char, 5>, 5> temp;
-	int blockPosX = 0;
-	int blockPosY = 0;
+	int blockPosX = 1;
+	int blockPosY = 1;
 	int shape = 0;
+	int counter = 0;
 };
