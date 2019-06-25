@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <iostream>
 
-const int tempX = 6;
+const int tempX = 9;
 const int tempY = 6;
-const int numBoxGoal = 2;
+const int numBoxGoal = 3;
 
 using namespace std;
 class LevelGenerator
