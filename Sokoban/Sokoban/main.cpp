@@ -13,7 +13,8 @@ int main()
 	//DeltaTime
 	sf::Clock clock;
 	float deltaTime;
-
+	window.setKeyRepeatEnabled(false);
+	bool pressed = false;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -23,6 +24,23 @@ int main()
 			{
 				window.close();
 			}
+
+			switch (event.type)
+			{
+			case sf::Event::KeyPressed:
+				if (event.type == sf::Event::KeyPressed)
+				{
+					if(event.key.code == sf::Keyboard::R)
+						game.initialiseLevel();
+					if (event.key.code == sf::Keyboard::Space)
+						game.runSolution();
+				}
+				//pressed = true;
+				break;
+
+
+			}
+
 		}
 
 		deltaTime = clock.restart().asSeconds();
@@ -34,7 +52,7 @@ int main()
 		//	state = menu.getState();
 		//	break;
 		case(GameState::LEVEL):
-			game.handleInput();
+			//game.handleInput();
 			game.render();
 			state = game.getState();
 			break;

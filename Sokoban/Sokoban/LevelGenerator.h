@@ -28,10 +28,10 @@ public:
 	bool checkShapeFit(array<array<char, 5>, 5> arr, int m, int n);
 	bool canFit(array<array<char, 20>, 20> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size);
 	bool contFloor(array<array<char, 20>, 20> level);
-	bool contFloor2(array<array<char, 20>, 20> level);
 	void fillout(int x, int y, int value);
 	void addPlayer();
 	void addGoals(int numGoals);
+	bool checkCorneredBoxes(int x, int y);
 	void addBoxes(int numBox);
 private:
 	array<array<char, 20>, 20> emptyLevel;

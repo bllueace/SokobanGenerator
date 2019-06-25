@@ -43,7 +43,7 @@ private:
 	sf::Text playerText;
 	std::vector<std::vector<int>> levelData{ 20,std::vector<int>(20,-1) };
 
-	bool pressed;
+	bool pressed= false;
 	sf::Event event;
 
 };

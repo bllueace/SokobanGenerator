@@ -25,18 +25,6 @@ void Game::handleInput()
 	{
 		cout << "Solving..." << endl;
 		std::cout << solver.solve() << std::endl;
-		pressed = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && pressed == false)
-	{
-		//cout << "Generating new layout..." << endl;
-		initialiseLevel();
-		//pressed = true;
-	}
-	if (event.key.code == sf::Keyboard::G)
-	{
-		cout << "Generating new layout..." << endl;
-		initialiseLevel();
 		//pressed = true;
 	}
 }
@@ -73,6 +61,7 @@ void Game::initialiseLevel()
 	}
 
 	solver.getCurrentState(levelData);
+	//pressed = false;
 }
 
 void Game::update(float deltaTime)
@@ -109,6 +98,8 @@ void Game::getSolutionString(string sol)
 
 void Game::runSolution()
 {
+	std::cout << "Finding a solution..." << std::endl;
+	std::cout << solver.solve() << std::endl;
 }
 
 Game::~Game()

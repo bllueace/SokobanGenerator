@@ -21,15 +21,18 @@ void LevelGenerator::makeLevel()
 	////set generated level size
 LOOP:generateLevel(tempX, tempY);
 
-	if (contFloor2(emptyLevel))
+	if (contFloor(emptyLevel))
 	{
 		addPlayer();
+		//cin.get();
 		addGoals(numBoxGoal);
+		//cin.get();
 		addBoxes(numBoxGoal);
 		print(emptyLevel);
 	}
 	else
 	{
+		system("CLS");
 		cout << "Bad Level..." << endl;
 		//goto LOOP;
 	}
@@ -37,7 +40,9 @@ LOOP:generateLevel(tempX, tempY);
 	//do
 	//{
 	//	generateLevel(tempX, tempY);
-	//} while (!contFloor2(emptyLevel));
+	//	//system("CLS");
+	//	//cout << "Bad Level..." << endl;
+	//} while (!contFloor(emptyLevel));
 
 	//addPlayer();
 	//addGoals(numBoxGoal);
@@ -346,114 +351,6 @@ bool LevelGenerator::canFit(array<array<char, 20>, 20> level, array<array<char, 
 
 bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
 {
-	bool valid = true;
-	queue<tuple<int, int>> que;
-	int count = 1;
-
-	const int tempX = std::extent<decltype(level), 0>::value;
-	const int tempY = std::extent<decltype(level), 1>::value;
-
-	array<array<char, tempX>, tempY> test;
-
-	for (int i = 0; i < tempX; i++)
-	{
-		for (int j = 0; j < tempY; j++)
-		{
-			test[i][j] = ' ';
-		}
-	}
-
-	for (int x = 0; x < tempX; x++)
-	{
-		for (int y = 0; y < tempY; y++)
-		{
-			if (level[x][y] == '#')
-			{
-				if (test[x][y] == ' ')
-				{
-					que.push(make_tuple(x, y));
-					test[x][y] = count;
-				}
-				while (!que.empty())
-				{
-					tuple<int, int>xy = que.front(); 
-					que.pop();
-					////////////////
-					if (get<0>(xy) + 1 < tempX)
-					{
-						if (level[get<0>(xy) + 1][get<1>(xy)] == '#')
-						{
-							if (test[get<0>(xy) + 1][get<1>(xy)] == ' ')
-							{
-								que.push(make_tuple(get<0>(xy) + 1, get<1>(xy)));
-								test[get<0>(xy) + 1][get<1>(xy)] = count;
-							}
-						}
-					}
-					////////////
-					if (get<1>(xy) + 1 < tempY)
-					{
-						if (level[get<0>(xy)][get<1>(xy) + 1] == '#')
-						{
-							if (test[get<0>(xy)][get<1>(xy) + 1] == ' ')
-							{
-								que.push(make_tuple(get<0>(xy), get<1>(xy) + 1));
-								test[get<0>(xy)][get<1>(xy) +1] = count;
-							}
-						}
-					}
-					////////////
-					if (get<1>(xy) - 1 >= 0)
-					{
-						if (level[get<0>(xy)][get<1>(xy) - 1] == '#')
-						{
-							if (test[get<0>(xy)][get<1>(xy) - 1] == ' ')
-							{
-								que.push(make_tuple(get<0>(xy), get<1>(xy) - 1));
-								test[get<0>(xy)][get<1>(xy) - 1] = count;
-							}
-						}
-					}
-					////////////////
-					if (get<0>(xy) - 1 < 0)
-					{
-						if (level[get<0>(xy) - 1][get<1>(xy)] == '#')
-						{
-							if (test[get<0>(xy) - 1][get<1>(xy)] == ' ')
-							{
-								que.push(make_tuple(get<0>(xy) - 1, get<1>(xy)));
-								test[get<0>(xy) - 1][get<1>(xy)] = count;
-							}
-						}
-					}
-
-					count++;
-				}
-			}
-
-		}
-
-		if (que.size() > 1)
-		{
-			valid = false;
-		}
-		for (int i = 0; i < 20; i++)
-		{
-			for (int j = 0; j < 20; j++)
-			{
-				if (i > 1)
-				{
-					valid = false;
-				}
-			}
-		}
-	}
-
-	return valid;
-}
-
-bool LevelGenerator::contFloor2(array<array<char, 20>, 20> level)
-{
 	for (int i = 0; i <= tempX+1; i++)
 	{
 		for (int j = 0; j <= tempY+1; j++)
@@ -502,7 +399,7 @@ bool LevelGenerator::contFloor2(array<array<char, 20>, 20> level)
 		counter++;
 	}
 
-		 //see if there are any univisted cells left/ if so then return false
+		 //see if there are any unvisited cells left/ if so then return false
 		 for (int i = 0; i <= tempX + 1; i++)
 		 {
 			 for (int j = 0; j <= tempY + 1; j++)
@@ -569,6 +466,32 @@ void LevelGenerator::addGoals(int numGoals)
 	}
 }
 
+bool LevelGenerator::checkCorneredBoxes(int x, int y)
+{
+	//check top right corner
+	if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0') &&
+		(emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0') &&
+		(emptyLevel[x + 1][y - 1] == '#' || emptyLevel[x + 1][y - 1] == '0'))
+		return false;
+	//check bottom right corner
+	else if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0')
+		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0')
+		&& (emptyLevel[x + 1][y + 1] == '#' || emptyLevel[x + 1][y + 1] == '0'))
+		return false;
+	//check bottom left corner
+	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
+		&& (emptyLevel[x - 1][y + 1] == '#' || emptyLevel[x - 1][y + 1] == '0')
+		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0'))
+		return false;
+	//check top left corner
+	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
+		&& (emptyLevel[x - 1][y - 1] == '#' || emptyLevel[x - 1][y - 1] == '0')
+		&& (emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0'))
+		return false;
+
+	return true;
+}
+
 void LevelGenerator::addBoxes(int numBox)
 {
 	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
@@ -582,8 +505,12 @@ void LevelGenerator::addBoxes(int numBox)
 
 		if (emptyLevel[x][y] == ' ')
 		{
-			emptyLevel[x][y] = '$';
-			numBox--;
+			//TODO: FIX THE CRASH THAT OCCURES 
+			if (checkCorneredBoxes(x,y))
+			{
+				emptyLevel[x][y] = '$';
+				numBox--;
+			}
 
 			if (numBox <= 0)
 			{

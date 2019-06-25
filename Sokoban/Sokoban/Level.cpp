@@ -106,8 +106,8 @@ void Level::initialize(int level)
 				case ' ': //Empty
 					gridVal[i][j] = 0;
 					break;
-				case '*':
-					gridVal[i][j] = 0; // outside environment
+				case '0':
+					gridVal[i][j] = 1; // outside environment
 					break;
 				}
 			}
