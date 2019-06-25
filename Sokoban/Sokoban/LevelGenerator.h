@@ -7,7 +7,7 @@
 #include <iostream>
 
 const int tempX = 9;
-const int tempY = 6;
+const int tempY = 9;
 const int numBoxGoal = 3;
 
 using namespace std;

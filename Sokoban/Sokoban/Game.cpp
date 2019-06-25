@@ -61,7 +61,7 @@ void Game::initialiseLevel()
 		}
 	}
 	//load tilemap from an array
-	if (!map.load("tileset.png", sf::Vector2u(32, 32), set, 20, 20))
+	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 20,20))
 		return;
 
 	for (int i = 0; i < 20; i++)

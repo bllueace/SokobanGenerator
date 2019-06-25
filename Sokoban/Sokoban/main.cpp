@@ -3,7 +3,7 @@
 #include "Menu.h"
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(640, 640), "Sokoban");
+	sf::RenderWindow window(sf::VideoMode(704, 704), "Sokoban");
 	Input input;
 	Game game(&window, &input);
 	Menu menu(&window, &input);
