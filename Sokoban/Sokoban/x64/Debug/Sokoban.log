@@ -55,12 +55,6 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           [
               T=float
           ]
-  Input.cpp
-  Level.cpp
-  LevelGenerator.cpp
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(10): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(22): warning C4102: 'LOOP': unreferenced label
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(53): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   main.cpp
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(32): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
           with
@@ -118,7 +112,7 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           [
               T=float
           ]
-  Menu.cpp
-  Solver.cpp
   Generating Code...
+  LINK : C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe not found or not built by the last incremental link; performing full link
+LevelGenerator.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'LevelGenerator.obj' or at 'C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\vc141.pdb'; linking object as if no debug info
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe

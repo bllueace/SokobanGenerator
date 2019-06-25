@@ -470,22 +470,18 @@ bool LevelGenerator::checkCorneredBoxes(int x, int y)
 {
 	//check top right corner
 	if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0') &&
-		(emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0') &&
-		(emptyLevel[x + 1][y - 1] == '#' || emptyLevel[x + 1][y - 1] == '0'))
+		(emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0'))
 		return false;
 	//check bottom right corner
 	else if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0')
-		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0')
-		&& (emptyLevel[x + 1][y + 1] == '#' || emptyLevel[x + 1][y + 1] == '0'))
+		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0'))
 		return false;
 	//check bottom left corner
 	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
-		&& (emptyLevel[x - 1][y + 1] == '#' || emptyLevel[x - 1][y + 1] == '0')
 		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0'))
 		return false;
 	//check top left corner
 	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
-		&& (emptyLevel[x - 1][y - 1] == '#' || emptyLevel[x - 1][y - 1] == '0')
 		&& (emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0'))
 		return false;
 
