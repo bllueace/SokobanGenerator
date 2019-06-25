@@ -40,21 +40,21 @@ void Game::initialiseLevel()
 	//change the 2d array to normal array in order to access tilemap
 	int set[400];
 	int count = 0;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 11; i++)
 	{
-		for (int j = 0; j < 20; j++)
+		for (int j = 0; j < 11; j++)
 		{
 			set[count] = level.getContent(i, j);
 			count++;
 		}
 	}
 	//load tilemap from an array
-	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 20,20))
+	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11,11))
 		return;
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 11; i++)
 	{
-		for (int j = 0; j < 20; j++)
+		for (int j = 0; j < 11; j++)
 		{
 			levelData[i][j] = level.getContent(i, j);
 		}

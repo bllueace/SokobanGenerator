@@ -41,7 +41,7 @@ private:
 	Solver solver;
 	int playerInp = 99;
 	sf::Text playerText;
-	std::vector<std::vector<int>> levelData{ 20,std::vector<int>(20,-1) };
+	std::vector<std::vector<int>> levelData{ 11,std::vector<int>(11,-1) };
 
 	bool pressed= false;
 	sf::Event event;

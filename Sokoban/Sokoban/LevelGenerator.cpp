@@ -61,13 +61,13 @@ int LevelGenerator::random(int min, int max)
 	return min + rand() % ((max + 1) - min);
 }
 
-void LevelGenerator::print(array<array<char, 20>, 20> level)
+void LevelGenerator::print(array<array<char, 11>, 11> level)
 {
 	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
 	//const int cols = std::extent<decltype(emptyLevel), 1>::value;
 	system("CLS");
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 20; j++) {
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 11; j++) {
 			cout << setw(2);
 			cout << level[i][j] << " ";
 		}
@@ -110,9 +110,9 @@ void LevelGenerator::flipShapeR(array<array<char, 5>, 5> arr)
 void LevelGenerator::generateLevel(int height, int width)
 {
 	//initialize the array
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 11; i++)
 	{
-		for (int j = 0; j < 20; j++)
+		for (int j = 0; j < 11; j++)
 		{
 			emptyLevel[i][j] = '0';
 		}
@@ -128,7 +128,7 @@ void LevelGenerator::generateLevel(int height, int width)
 			{
 				for (int p = 0; p < 3; p++)
 				{
-					if (blockPosX + k < 20 && blockPosY + p < 20)
+					if (blockPosX + k < 11 && blockPosY + p < 11)
 					{
 						emptyLevel[blockPosX + k][blockPosY + p] = temp[k+1][p+1];
 					}
@@ -281,7 +281,7 @@ bool LevelGenerator::checkShapeFit(array<array<char, 5>, 5> arr, int m, int n)
 	return true;
 }
 
-bool LevelGenerator::canFit(array<array<char, 20>, 20> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size)
+bool LevelGenerator::canFit(array<array<char, 11>, 11> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size)
 {
 	bool fit = true;
 	//check top
@@ -349,7 +349,7 @@ bool LevelGenerator::canFit(array<array<char, 20>, 20> level, array<array<char, 
 	return fit;
 }
 
-bool LevelGenerator::contFloor(array<array<char, 20>, 20> level)
+bool LevelGenerator::contFloor(array<array<char, 11>, 11> level)
 {
 	for (int i = 0; i <= tempX+1; i++)
 	{

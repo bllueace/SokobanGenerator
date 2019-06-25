@@ -21,12 +21,12 @@ public:
 	int getPush();
 	void empty();
 private:
-	std::vector<std::vector<int>> gridVal{ 20,std::vector<int>(20,-1)};
+	std::vector<std::vector<int>> gridVal{ 11,std::vector<int>(11,-1)};
 	sf::RenderWindow* window;
 
 	int push;
-	const int XWIDE = 20;
-	const int YWIDE = 20;
+	const int XWIDE = 11;
+	const int YWIDE = 11;
 
 	LevelGenerator *testLevel;
 };

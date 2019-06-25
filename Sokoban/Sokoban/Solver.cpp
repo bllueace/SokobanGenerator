@@ -9,8 +9,8 @@ Solver::Solver(){
 
 //gets the original state of the level
 void Solver::getCurrentState(std::vector<std::vector<int>> data) {
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 20; j++) {
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 11; j++) {
 			sState[i][j] = data[i][j];
 		}
 	}
@@ -40,8 +40,8 @@ bool Solver::push(int x, int y, int dx, int dy, std::vector<std::vector<int>> &d
 }
 //checks for solve state
 bool Solver::isSolved(const std::vector<std::vector<int>> &data) {
-	for (size_t r = 0; r < 20; r++)
-		for (size_t c = 0; c < 20; c++)
+	for (size_t r = 0; r < 11; r++)
+		for (size_t c = 0; c < 11; c++)
 			if ((sState[r][c] == 3) ^ (data[r][c] == 2))
 				return false;
 	return true;
@@ -54,9 +54,9 @@ string Solver::solve() {
 	queue<tuple<vector<vector<int>>, string, int, int>> open;
 
 	//find start node
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 11; i++)
 	{
-		for (int j = 0; j < 20; j++)
+		for (int j = 0; j < 11; j++)
 		{
 			if (sState[i][j] == 4)
 			{
