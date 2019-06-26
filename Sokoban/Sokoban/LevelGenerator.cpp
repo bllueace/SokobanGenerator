@@ -19,35 +19,46 @@ void LevelGenerator::makeLevel()
 {
 	//bool valid = false;;
 	////set generated level size
-LOOP:generateLevel(tempX, tempY);
+//LOOP:generateLevel(tempX, tempY);
+//
+//	if (contFloor(emptyLevel))
+//	{
+//		addPlayer();
+//		//cin.get();
+//		addGoals(numBoxGoal);
+//		//cin.get();
+//		addBoxes(numBoxGoal);
+//		print(emptyLevel);
+//	}
+//	else
+//	{
+//		system("CLS");
+//		cout << "Bad Level..." << endl;
+//		//goto LOOP;
+//	}
 
-	if (contFloor(emptyLevel))
+//	int count_tries = 0;
+
+	do
 	{
-		addPlayer();
-		//cin.get();
-		addGoals(numBoxGoal);
-		//cin.get();
-		addBoxes(numBoxGoal);
-		print(emptyLevel);
-	}
-	else
-	{
-		system("CLS");
-		cout << "Bad Level..." << endl;
-		//goto LOOP;
-	}
+		generateLevel(tempX, tempY);
+		//system("CLS");
+		//cout << "Bad Level..." << endl;
 
-	//do
-	//{
-	//	generateLevel(tempX, tempY);
-	//	//system("CLS");
-	//	//cout << "Bad Level..." << endl;
-	//} while (!contFloor(emptyLevel));
+		//count_tries++;
+		//cout << count_tries << endl;
 
-	//addPlayer();
-	//addGoals(numBoxGoal);
-	//addBoxes(numBoxGoal);
-	//print(emptyLevel);
+		//if (count_tries > 500)
+		//{
+		//	print(emptyLevel);
+		//	system("pause");
+		//}
+	} while (!contFloor(emptyLevel));
+
+	addPlayer();
+	addGoals(numBoxGoal);
+	addBoxes(numBoxGoal);
+	print(emptyLevel);
 }
 
 int LevelGenerator::random(int min, int max)
@@ -110,6 +121,8 @@ void LevelGenerator::flipShapeR(array<array<char, 5>, 5> arr)
 void LevelGenerator::generateLevel(int height, int width)
 {
 	//initialize the array
+	blockPosX = 1;
+	blockPosY = 1;
 	for (int i = 0; i < 11; i++)
 	{
 		for (int j = 0; j < 11; j++)
@@ -351,6 +364,9 @@ bool LevelGenerator::canFit(array<array<char, 11>, 11> level, array<array<char, 
 
 bool LevelGenerator::contFloor(array<array<char, 11>, 11> level)
 {
+	int num_spaces = 0;
+	counter = 0;
+
 	for (int i = 0; i <= tempX+1; i++)
 	{
 		for (int j = 0; j <= tempY+1; j++)
@@ -362,12 +378,15 @@ bool LevelGenerator::contFloor(array<array<char, 11>, 11> level)
 				break;
 			case ' ': //Empty
 				lev[i][j] = -1;
+				num_spaces++;
 				break;
 			case '0':
 				lev[i][j] = -9;
 			}
 		}
 	}
+
+	if (num_spaces <= 10) return false;
 
 	for (int i = 0; i <= tempX + 1; i++)
 	{
@@ -380,6 +399,7 @@ bool LevelGenerator::contFloor(array<array<char, 11>, 11> level)
 			}
 		}
 	}
+
 
 	LOOP:for (int i = 0; i < (tempX + tempY); i++)
 	{
@@ -432,8 +452,8 @@ void LevelGenerator::addPlayer()
 
 	while (!placed)
 	{
-		int x = random(1, tempX);
-		int y = random(1, tempY);
+		int x = random(1, 10);
+		int y = random(1, 10);
 		if (emptyLevel[x][y] == ' ')
 		{
 			placed = true;
@@ -450,8 +470,8 @@ void LevelGenerator::addGoals(int numGoals)
 	int count = 0;
 	while (!placed)
 	{
-		int x = random(1, tempX - 1);
-		int y = random(1, tempY - 1);
+		int x = random(1, 10 - 1);
+		int y = random(1, 10 - 1);
 
 		if (emptyLevel[x][y] == ' ')
 		{
@@ -496,8 +516,8 @@ void LevelGenerator::addBoxes(int numBox)
 	//int count = 0;
 	while (!placed)
 	{
-		int x = random(1, tempX - 2);
-		int y = random(1, tempY - 2);
+		int x = random(1, 10 - 2);
+		int y = random(1, 10 - 2);
 
 		if (emptyLevel[x][y] == ' ')
 		{

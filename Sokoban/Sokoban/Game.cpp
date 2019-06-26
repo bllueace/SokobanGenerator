@@ -38,7 +38,7 @@ void Game::initialiseLevel()
 	//level.print();
 
 	//change the 2d array to normal array in order to access tilemap
-	int set[400];
+	int set[121];
 	int count = 0;
 	for (int i = 0; i < 11; i++)
 	{
