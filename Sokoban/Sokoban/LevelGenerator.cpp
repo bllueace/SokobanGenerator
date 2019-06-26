@@ -54,7 +54,6 @@ void LevelGenerator::makeLevel()
 		//	system("pause");
 		//}
 	} while (!contFloor(emptyLevel));
-
 	addPlayer();
 	addGoals(numBoxGoal);
 	addBoxes(numBoxGoal);
@@ -230,8 +229,8 @@ void LevelGenerator::getRandomShape()
 		temp.swap(templates->shape13);
 		break;
 	case 14:
-		//memcpy(temp, templates.shape14, sizeof templates.shape14);
-		temp.swap(templates->shape14);
+		//memcpy(temp, templates.shape11, sizeof templates.shape11);
+		temp.swap(templates->shape11);
 		break;
 	case 15:
 		//memcpy(temp, templates.shape15, sizeof templates.shape15);
@@ -275,23 +274,6 @@ char LevelGenerator::getGenLevel(int i,int j)
 //	contFloor(emptyLevel);
 	return emptyLevel[i][j];
 
-}
-
-bool LevelGenerator::checkShapeFit(array<array<char, 5>, 5> arr, int m, int n)
-{
-	list<int> x;
-	list<int> y;
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
-			if ((i == 0 || j == 0 || i == n - 1 || j == n - 1) && (arr[i][j] == ' '))
-			{
-				x.push_front(i);
-				y.push_front(j);
-				cout << "Indices are : " << i << ":" << j << endl;
-			}
-		}
-	}
-	return true;
 }
 
 bool LevelGenerator::canFit(array<array<char, 11>, 11> level, array<array<char, 5>, 5> arr, int startX, int startY, int hight, int width, int size)
@@ -452,8 +434,8 @@ void LevelGenerator::addPlayer()
 
 	while (!placed)
 	{
-		int x = random(1, 10);
-		int y = random(1, 10);
+		int x = random(1, placementCheck);
+		int y = random(1, placementCheck);
 		if (emptyLevel[x][y] == ' ')
 		{
 			placed = true;
@@ -470,8 +452,8 @@ void LevelGenerator::addGoals(int numGoals)
 	int count = 0;
 	while (!placed)
 	{
-		int x = random(1, 10 - 1);
-		int y = random(1, 10 - 1);
+		int x = random(1, placementCheck - 1);
+		int y = random(1, placementCheck - 1);
 
 		if (emptyLevel[x][y] == ' ')
 		{
@@ -516,8 +498,8 @@ void LevelGenerator::addBoxes(int numBox)
 	//int count = 0;
 	while (!placed)
 	{
-		int x = random(1, 10 - 2);
-		int y = random(1, 10 - 2);
+		int x = random(1, placementCheck - 2);
+		int y = random(1, placementCheck - 2);
 
 		if (emptyLevel[x][y] == ' ')
 		{
