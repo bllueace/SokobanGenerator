@@ -22,7 +22,7 @@ public:
 	void runSolution();
 	void handleInput();
 	void initialiseLevel();
-	void update(float deltaTime);
+	void update(int playerMove);
 	GameState getState();
 	void render();
 	void beginDraw();

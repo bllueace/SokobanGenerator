@@ -85,6 +85,9 @@ void Level::initialize(int level)
 			{
 				switch (testLevel->getGenLevel(i,j))
 				{
+				case ' ': //Empty
+					gridVal[i][j] = 0;
+					break;
 				case '#': //walls
 					gridVal[i][j] = 1;
 					break;
@@ -102,9 +105,6 @@ void Level::initialize(int level)
 					break;
 				case '+': //Player on goal
 					gridVal[i][j] = 6;
-					break;
-				case ' ': //Empty
-					gridVal[i][j] = 0;
 					break;
 				case '0':
 					gridVal[i][j] = 1; // outside environment

@@ -1,9 +1,9 @@
 ﻿  LevelGenerator.cpp
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(10): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(68): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(69): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating code
-  2 of 700 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  3 of 699 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    7 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Release\Sokoban.exe

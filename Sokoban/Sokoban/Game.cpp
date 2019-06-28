@@ -64,10 +64,80 @@ void Game::initialiseLevel()
 	//pressed = false;
 }
 
-void Game::update(float deltaTime)
+void Game::update(int playerMove)
 {
+	////handleInput();
+	//switch (playerMove)
+	//{
+	//	//move right
+	//case 1:
+	//	if (set[playerPos.x + 1][playerPos.y] == 0 || set[playerPos.x + 1][playerPos.y] == 3)
+	//	{
+	//		if (set[playerPos.x][playerPos.y] == 4)
+	//			set[playerPos.x][playerPos.y] = 0;
+	//		if (set[playerPos.x][playerPos.y] == 6)
+	//			set[playerPos.x][playerPos.y] = 3;
 
+	//		if (set[playerPos.x + 1][playerPos.y] == 0)
+	//			set[playerPos.x + 1][playerPos.y] = 4;
+	//		if (set[playerPos.x + 1][playerPos.y] == 3)
+	//			set[playerPos.x + 1][playerPos.y] == 6;
+
+	//		playerPos.x++;
+	//		if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+	//			return;
+	//	}
+	//	else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] != 1)
+	//	{
+	//		if (set[playerPos.x + 2][playerPos.y] == 0)
+	//			set[playerPos.x + 2][playerPos.y] = 2;
+	//		if (set[playerPos.x + 2][playerPos.y] == 3)
+	//		{
+	//			set[playerPos.x + 2][playerPos.y] == 5;
+	//			numGoals--;
+	//		}
+	//		/////
+	//		if (set[playerPos.x][playerPos.y] = 4)
+	//			set[playerPos.x][playerPos.y] = 0;
+	//		if (set[playerPos.x][playerPos.y] = 6)
+	//			set[playerPos.x][playerPos.y] = 3;
+
+
+	//		if (set[playerPos.x + 1][playerPos.y] = 2)
+	//			set[playerPos.x + 1][playerPos.y] = 4;
+	//		if (set[playerPos.x + 1][playerPos.y] = 5)
+	//		{
+	//			set[playerPos.x + 1][playerPos.y] = 6;
+	//			numGoals++;
+	//		}
+
+
+
+	//		playerPos.x++;
+	//		if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+	//			return;
+	//	}
+	//	else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] == 3)
+	//	{
+
+	//	}
+	//	else if ((set[playerPos.x + 1][playerPos.y] == 1) ||
+	//		(set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] == 1))
+	//	{
+	//		break;
+	//	}
+	//	break;
+	//case 2:
+	//	break;
+	//case 3:
+	//	break;
+	//case 4:
+	//	break;
+	//case 0:
+	//	break;
+	//}
 }
+
 
 void Game::render()
 {

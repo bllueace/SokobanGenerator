@@ -54,6 +54,7 @@ void LevelGenerator::makeLevel()
 		//	system("pause");
 		//}
 	} while (!contFloor(emptyLevel));
+	std::cin;
 	addPlayer();
 	addGoals(numBoxGoal);
 	addBoxes(numBoxGoal);

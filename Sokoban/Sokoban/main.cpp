@@ -13,7 +13,7 @@ int main()
 	Menu menu(&window, &input);
 
 	GameState state = GameState::LEVEL;
-
+	int playerMove = 0;
 	//DeltaTime
 	sf::Clock clock;
 	float deltaTime;
@@ -39,12 +39,20 @@ int main()
 					if (event.key.code == sf::Keyboard::Space)
 					{
 						the_clock::time_point start = the_clock::now();
-						game.initialiseLevel();
+						//game.initialiseLevel();
 						game.runSolution();
 						the_clock::time_point end = the_clock::now();
 						int time_taken = duration_cast<milliseconds>(end - start).count();
 						std::cout << "Generating complete level took: " << time_taken << "ms." << std::endl;
 					}
+
+					//player movement
+					if (event.key.code == sf::Keyboard::Right)
+					{
+						playerMove = 1;
+					}
+
+
 				}
 				//pressed = true;
 				break;
@@ -64,7 +72,8 @@ int main()
 		//	break;
 		case(GameState::LEVEL):
 			//game.handleInput();
-			game.update(deltaTime);
+			//game.update(playerMove);
+			playerMove = 0;
 			game.render();
 			state = game.getState();
 			break;
