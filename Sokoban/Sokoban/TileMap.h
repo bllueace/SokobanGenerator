@@ -4,7 +4,7 @@ class TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
 
-	bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height)
+	bool load(const std::string& tileset, sf::Vector2u tileSize,  int tiles[11][11], unsigned int width, unsigned int height)
 	{
 		// load the tileset texture
 		if (!m_tileset.loadFromFile(tileset))
@@ -19,7 +19,9 @@ public:
 			for (unsigned int j = 0; j < height; ++j)
 			{
 				// get the current tile number
-				int tileNumber = tiles[i + j * width];
+				int tileNumber = tiles[j][i];
+				//int tileNumber = tiles[i + j * width];
+
 
 				// find its position in the tileset texture
 				int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);

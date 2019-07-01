@@ -47,11 +47,14 @@ int main()
 					}
 
 					//player movement
-					if (event.key.code == sf::Keyboard::Right)
-					{
+					if (event.key.code == sf::Keyboard::Down)
 						playerMove = 1;
-					}
-
+					else if (event.key.code == sf::Keyboard::Up)
+						playerMove = 2;
+					else if (event.key.code == sf::Keyboard::Left)
+						playerMove = 3;
+					else if (event.key.code == sf::Keyboard::Right)
+						playerMove = 4;
 
 				}
 				//pressed = true;
@@ -72,7 +75,7 @@ int main()
 		//	break;
 		case(GameState::LEVEL):
 			//game.handleInput();
-			//game.update(playerMove);
+			game.update(playerMove);
 			playerMove = 0;
 			game.render();
 			state = game.getState();

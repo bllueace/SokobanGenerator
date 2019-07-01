@@ -14,6 +14,13 @@
 #include "Solver.h"
 #include "TileMap.h"
 using namespace std;
+
+struct Player
+{
+	int x;
+	int y;
+};
+
 class Game
 {
 public:
@@ -22,12 +29,12 @@ public:
 	void runSolution();
 	void handleInput();
 	void initialiseLevel();
+	void resetTile(int x, int y);
 	void update(int playerMove);
 	GameState getState();
 	void render();
 	void beginDraw();
 	void endDraw();
-
 	Game(sf::RenderWindow* hwnd, Input* in);
 	~Game();
 private:
@@ -45,6 +52,8 @@ private:
 
 	bool pressed= false;
 	sf::Event event;
-
+	int set[11][11];
+	int numGoals = 0;
+	Player playerPos;
 };
 

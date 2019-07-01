@@ -21,123 +21,280 @@ GameState Game::getState()
 
 void Game::handleInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && pressed == false)
-	{
-		cout << "Solving..." << endl;
-		std::cout << solver.solve() << std::endl;
-		//pressed = true;
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && pressed == false)
+	//{
+	//	cout << "Solving..." << endl;
+	//	std::cout << solver.solve() << std::endl;
+	//	//pressed = true;
+	//}
 }
 
 void Game::initialiseLevel()
 {
 	//cout << "Please enter which level to play (1-5): " << endl;
 	//cin >> playerInp;
-
+	numGoals = 0;
 	level.initialize(playerInp);
 	//level.print();
 
 	//change the 2d array to normal array in order to access tilemap
-	int set[121];
 	int count = 0;
 	for (int i = 0; i < 11; i++)
 	{
 		for (int j = 0; j < 11; j++)
 		{
-			set[count] = level.getContent(i, j);
+			if (level.getContent(i, j) == 4)
+			{
+				playerPos.x = i;
+				playerPos.y = j;
+			}
+
+			if (level.getContent(i, j) == 3)
+				numGoals++;
+
+			set[i][j] = level.getContent(i, j);
 			count++;
 		}
 	}
 	//load tilemap from an array
 	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11,11))
 		return;
+}
 
-	for (int i = 0; i < 11; i++)
+void Game::resetTile(int x, int y)
+{
+	if (set[x][y] == 4)
+		set[x][y] = 0;
+	else if (set[x][y] == 6)
+		set[x][y] = 3;
+	else if (set[x][y] == 2)
+		set[x][y] = 0;
+	else if (set[x][y] == 5)
 	{
-		for (int j = 0; j < 11; j++)
-		{
-			levelData[i][j] = level.getContent(i, j);
-		}
+		set[x][y] = 3;
+		//numGoals++;
 	}
-
-	solver.getCurrentState(levelData);
-	//pressed = false;
 }
 
 void Game::update(int playerMove)
 {
-	////handleInput();
-	//switch (playerMove)
-	//{
-	//	//move right
-	//case 1:
-	//	if (set[playerPos.x + 1][playerPos.y] == 0 || set[playerPos.x + 1][playerPos.y] == 3)
-	//	{
-	//		if (set[playerPos.x][playerPos.y] == 4)
-	//			set[playerPos.x][playerPos.y] = 0;
-	//		if (set[playerPos.x][playerPos.y] == 6)
-	//			set[playerPos.x][playerPos.y] = 3;
+	//handleInput();
+	switch (playerMove)
+	{
+		//move down
+	case 1:
+		if ((set[playerPos.x + 1][playerPos.y] == 0) || (set[playerPos.x +1][playerPos.y] == 3))
+		{
+			resetTile(playerPos.x, playerPos.y);
 
-	//		if (set[playerPos.x + 1][playerPos.y] == 0)
-	//			set[playerPos.x + 1][playerPos.y] = 4;
-	//		if (set[playerPos.x + 1][playerPos.y] == 3)
-	//			set[playerPos.x + 1][playerPos.y] == 6;
+			if (set[playerPos.x + 1][playerPos.y] == 0)
+				set[playerPos.x + 1][playerPos.y] = 4;
+			if (set[playerPos.x + 1][playerPos.y] == 3)
+				set[playerPos.x + 1][playerPos.y] = 6;
 
-	//		playerPos.x++;
-	//		if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
-	//			return;
-	//	}
-	//	else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] != 1)
-	//	{
-	//		if (set[playerPos.x + 2][playerPos.y] == 0)
-	//			set[playerPos.x + 2][playerPos.y] = 2;
-	//		if (set[playerPos.x + 2][playerPos.y] == 3)
-	//		{
-	//			set[playerPos.x + 2][playerPos.y] == 5;
-	//			numGoals--;
-	//		}
-	//		/////
-	//		if (set[playerPos.x][playerPos.y] = 4)
-	//			set[playerPos.x][playerPos.y] = 0;
-	//		if (set[playerPos.x][playerPos.y] = 6)
-	//			set[playerPos.x][playerPos.y] = 3;
+			playerPos.x++;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] != 1)
+		{
+			if (set[playerPos.x + 2][playerPos.y] == 0)
+			{
+				set[playerPos.x + 2][playerPos.y] = 2;
+				if (set[playerPos.x + 1][playerPos.y] == 2)
+					set[playerPos.x + 1][playerPos.y] = 0;
+				else if (set[playerPos.x + 1][playerPos.y] == 5)
+				{
+					set[playerPos.x + 1][playerPos.y] = 3;
+					numGoals++;
+				}
+			}
+			else if (set[playerPos.x + 2][playerPos.y] == 3)
+			{
+				set[playerPos.x + 2][playerPos.y] = 5;
+				numGoals--;
+				if (set[playerPos.x + 1][playerPos.y] == 2)
+					set[playerPos.x + 1][playerPos.y] = 0;
+				else if (set[playerPos.x + 1][playerPos.y] == 5)
+				{
+					set[playerPos.x + 1][playerPos.y] = 3;
+					numGoals++;
+				}
+			}
 
+			resetTile(playerPos.x, playerPos.y);
 
-	//		if (set[playerPos.x + 1][playerPos.y] = 2)
-	//			set[playerPos.x + 1][playerPos.y] = 4;
-	//		if (set[playerPos.x + 1][playerPos.y] = 5)
-	//		{
-	//			set[playerPos.x + 1][playerPos.y] = 6;
-	//			numGoals++;
-	//		}
+			if (set[playerPos.x + 1][playerPos.y] == 0)
+				set[playerPos.x + 1][playerPos.y] = 4;
+			if (set[playerPos.x + 1][playerPos.y] == 3)
+				set[playerPos.x + 1][playerPos.y] = 6;
 
+			playerPos.x++;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		break;
+	case 2:
+		if (set[playerPos.x - 1][playerPos.y] == 0 || set[playerPos.x - 1][playerPos.y] == 3)
+		{
+			resetTile(playerPos.x, playerPos.y);
 
+			if (set[playerPos.x - 1][playerPos.y] == 0)
+				set[playerPos.x - 1][playerPos.y] = 4;
+			else if (set[playerPos.x - 1][playerPos.y] == 3)
+				set[playerPos.x - 1][playerPos.y] = 6;
 
-	//		playerPos.x++;
-	//		if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
-	//			return;
-	//	}
-	//	else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] == 3)
-	//	{
+			playerPos.x--;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		else if (set[playerPos.x - 1][playerPos.y] == 2 && set[playerPos.x - 2][playerPos.y] != 1)
+		{
+			if (set[playerPos.x - 2][playerPos.y] == 0)
+			{
+				set[playerPos.x - 2][playerPos.y] = 2;
+				if (set[playerPos.x - 1][playerPos.y] == 2)
+					set[playerPos.x - 1][playerPos.y] = 0;
+				else if (set[playerPos.x - 1][playerPos.y] == 5)
+				{
+					set[playerPos.x - 1][playerPos.y] = 3;
+					numGoals--;
+				}
+			}
+			else if (set[playerPos.x - 2][playerPos.y] == 3)
+			{
+				set[playerPos.x - 2][playerPos.y] = 5;
+				numGoals--;
+				if (set[playerPos.x - 1][playerPos.y] == 2)
+					set[playerPos.x - 1][playerPos.y] = 0;
+				else if (set[playerPos.x - 1][playerPos.y] == 5)
+				{
+					set[playerPos.x - 1][playerPos.y] = 3;
+					numGoals--;
+				}
+			}
 
-	//	}
-	//	else if ((set[playerPos.x + 1][playerPos.y] == 1) ||
-	//		(set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] == 1))
-	//	{
-	//		break;
-	//	}
-	//	break;
-	//case 2:
-	//	break;
-	//case 3:
-	//	break;
-	//case 4:
-	//	break;
-	//case 0:
-	//	break;
-	//}
+			resetTile(playerPos.x, playerPos.y);
+
+			if (set[playerPos.x - 1][playerPos.y] == 0)
+				set[playerPos.x - 1][playerPos.y] = 4;
+			if (set[playerPos.x - 1][playerPos.y] == 3)
+				set[playerPos.x - 1][playerPos.y] = 6;
+			playerPos.x--;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		break;
+	case 3:
+		if (set[playerPos.x][playerPos.y - 1] == 0 || set[playerPos.x][playerPos.y - 1] == 3)
+		{
+			resetTile(playerPos.x, playerPos.y);
+
+			if (set[playerPos.x][playerPos.y - 1] == 0)
+				set[playerPos.x][playerPos.y - 1] = 4;
+			else if (set[playerPos.x][playerPos.y - 1] == 3)
+				set[playerPos.x][playerPos.y - 1] = 6;
+
+			playerPos.y--;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		else if (set[playerPos.x][playerPos.y - 1] == 2 && set[playerPos.x][playerPos.y - 2] != 1)
+		{
+
+			if (set[playerPos.x][playerPos.y-2] == 0)
+			{
+				set[playerPos.x][playerPos.y-2] = 2;
+				if (set[playerPos.x][playerPos.y-1] == 2)
+					set[playerPos.x][playerPos.y-1] = 0;
+				else if (set[playerPos.x][playerPos.y-1] == 5)
+				{
+					set[playerPos.x ][playerPos.y-1] = 3;
+					numGoals++;
+				}
+			}
+			else if (set[playerPos.x ][playerPos.y-2] == 3)
+			{
+				set[playerPos.x ][playerPos.y-2] = 5;
+				numGoals--;
+				if (set[playerPos.x ][playerPos.y-1] == 2)
+					set[playerPos.x ][playerPos.y-1] = 0;
+				else if (set[playerPos.x ][playerPos.y-1] == 5)
+				{
+					set[playerPos.x ][playerPos.y-1] = 3;
+					numGoals++;
+				}
+			}
+
+			resetTile(playerPos.x, playerPos.y);
+
+			if (set[playerPos.x][playerPos.y-1] == 0)
+				set[playerPos.x][playerPos.y-1] = 4;
+			if (set[playerPos.x][playerPos.y-1] == 3)
+				set[playerPos.x][playerPos.y-1] = 6;
+			playerPos.y--;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		break;
+	case 4:
+		if (set[playerPos.x][playerPos.y + 1] == 0 || set[playerPos.x][playerPos.y + 1] == 3)
+		{
+			resetTile(playerPos.x, playerPos.y);
+	
+			if (set[playerPos.x][playerPos.y + 1] == 0)
+				set[playerPos.x][playerPos.y + 1] = 4;
+			else if (set[playerPos.x][playerPos.y + 1] == 3)
+				set[playerPos.x][playerPos.y + 1] = 6;
+
+			playerPos.y++;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		else if (set[playerPos.x][playerPos.y + 1] == 2 && set[playerPos.x][playerPos.y + 2] != 1)
+		{
+
+			if (set[playerPos.x][playerPos.y + 2] == 0)
+			{
+				set[playerPos.x][playerPos.y + 2] = 2;
+				if (set[playerPos.x][playerPos.y + 1] == 2)
+					set[playerPos.x][playerPos.y + 1] = 0;
+				else if (set[playerPos.x][playerPos.y + 1] == 5)
+				{
+					set[playerPos.x][playerPos.y + 1] = 3;
+					numGoals++;
+				}
+			}
+			else if (set[playerPos.x][playerPos.y + 2] == 3)
+			{
+				set[playerPos.x][playerPos.y + 2] = 5;
+				numGoals--;
+				if (set[playerPos.x][playerPos.y + 1] == 2)
+					set[playerPos.x][playerPos.y + 1] = 0;
+				else if (set[playerPos.x][playerPos.y + 1] == 5)
+				{
+					set[playerPos.x][playerPos.y + 1] = 3;
+					numGoals++;
+				}
+			}
+
+			resetTile(playerPos.x, playerPos.y);
+
+			if (set[playerPos.x][playerPos.y + 1] == 0)
+				set[playerPos.x][playerPos.y + 1] = 4;
+			if (set[playerPos.x][playerPos.y + 1] == 3)
+				set[playerPos.x][playerPos.y + 1] = 6;
+			playerPos.y++;
+			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+				return;
+		}
+		break;
+	}
+	if (numGoals <= 0)
+	{
+		cout << "All goals reached" << endl;
+	}
 }
-
 
 void Game::render()
 {
@@ -168,6 +325,18 @@ void Game::getSolutionString(string sol)
 
 void Game::runSolution()
 {
+
+	for (int i = 0; i < 11; i++)
+	{
+		for (int j = 0; j < 11; j++)
+		{
+			//levelData[i][j] = level.getContent(i, j);
+			levelData[i][j] = set[i][j];
+		}
+	}
+
+	solver.getCurrentState(levelData);
+
 	std::cout << "Finding a solution..." << std::endl;
 	std::cout << solver.solve() << std::endl;
 }
