@@ -1,50 +1,62 @@
 #include "Menu.h"
 
-Menu::Menu(sf::RenderWindow* hwnd, Input* in)
-{
+#include <memory>
+#include <iostream>
 
-	window = hwnd;
-	input = in;
-	state = GameState::MENU;
+#include "Game.h"
+Menu::Menu(StateManager& a_game, sf::Font& a_font) :
+	GameState(a_game),
+	font(a_font)
+{
+	text.setFont(font);
+	text.setString("MAIN MENU");
+	text.setCharacterSize(50);
+	text.setFillColor(sf::Color::Red);
+	text.setPosition(210, 300);
+
+	pressSpace.setFont(font);
+	pressSpace.setString("(Press Space)");
+	pressSpace.setCharacterSize(20);
+	pressSpace.setFillColor(sf::Color::Red);
+	pressSpace.setPosition(290, 450);
 }
+
 Menu::~Menu()
 {
+
 }
 
-GameState Menu::getState()
+void Menu::pause()
 {
-	return state;
+
 }
 
-void Menu::handleInput()
+void Menu::resume()
 {
-	if (input->isKeyDown(sf::Keyboard::Return))
+
+}
+
+void Menu::event(sf::Time elapsed, sf::Event a_event)
+{
+	if (a_event.type == sf::Event::KeyPressed)
 	{
-		input->setKeyUp(sf::Keyboard::Return);
-		state = GameState::LEVEL;
+		if (a_event.key.code == sf::Keyboard::Space)
+		{
+			std::cout << "Frame time: " << elapsed.asMilliseconds() << std::endl;
+
+			game.changeState(
+				std::unique_ptr<GameState>(new Game(game,font)));
+		}
 	}
-	else
-	{
-		state = GameState::MENU;
-	}
 }
 
-void Menu::update()
+void Menu::update(sf::Time elapsed, int playerInp)
 {
+
 }
 
-void Menu::render()
+void Menu::draw(VirtualScreen& screen)
 {
-	beginDraw();
-	endDraw();
-}
-
-void Menu::beginDraw()
-{
-	window->clear();
-}
-
-void Menu::endDraw()
-{
-	window->display();
+	screen.draw(text);
+	screen.draw(pressSpace);
 }

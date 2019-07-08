@@ -10,7 +10,7 @@ Level::Level()
 {	
 }
 
-void Level::initialize(int level) 
+void Level::initialize(int level)
 {
 	//if (level != 99)
 	//{
@@ -75,44 +75,42 @@ void Level::initialize(int level)
 	//	ip.close();
 	//}
 
-	//if (level == 99)
-	//{
-		testLevel = new LevelGenerator;
-		testLevel->makeLevel();
-		for (int i = 0; i < XWIDE; i++)
+	generatedLevel = new LevelGenerator;
+	generatedLevel->makeLevel();
+	for (int i = 0; i < XWIDE; i++)
+	{
+		for (int j = 0; j < YWIDE; j++)
 		{
-			for (int j = 0; j < YWIDE; j++)
+			switch (generatedLevel->getGenLevel(i, j))
 			{
-				switch (testLevel->getGenLevel(i,j))
-				{
-				case ' ': //Empty
-					gridVal[i][j] = 0;
-					break;
-				case '#': //walls
-					gridVal[i][j] = 1;
-					break;
-				case '$': //Box
-					gridVal[i][j] = 2;
-					break;
-				case '.': //Goal
-					gridVal[i][j] = 3;
-					break;
-				case '@': //Player
-					gridVal[i][j] = 4;
-					break;
-				case '?': //Box on goal
-					gridVal[i][j] = 5;
-					break;
-				case '+': //Player on goal
-					gridVal[i][j] = 6;
-					break;
-				case '0':
-					gridVal[i][j] = 1; // outside environment
-					break;
-				}
+			case ' ': //Empty
+				gridVal[i][j] = 0;
+				break;
+			case '#': //walls
+				gridVal[i][j] = 1;
+				break;
+			case '$': //Box
+				gridVal[i][j] = 2;
+				break;
+			case '.': //Goal
+				gridVal[i][j] = 3;
+				break;
+			case '@': //Player
+				gridVal[i][j] = 4;
+				break;
+			case '?': //Box on goal
+				gridVal[i][j] = 5;
+				break;
+			case '+': //Player on goal
+				gridVal[i][j] = 6;
+				break;
+			case '0':
+				gridVal[i][j] = 1; // outside environment
+				break;
 			}
 		}
-	//}
+	}
+
 }
 
 int Level::getContent(int i, int j) {

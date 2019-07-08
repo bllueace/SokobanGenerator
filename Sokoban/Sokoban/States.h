@@ -1,2 +1,2 @@
 #pragma once
-enum class GameState { MENU, LEVEL, PAUSE, CREDITS };
+enum class States { MENU, LEVEL, GENERATE, PAUSE, CREDITS };

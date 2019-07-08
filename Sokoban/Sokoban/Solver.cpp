@@ -88,20 +88,25 @@ string Solver::solve() {
 			if (temp[y + dy][x + dx] == 2 || temp[y + dy][x + dx] == 5) {
 				if (push(x, y, dx, dy, temp) && (visited.find(temp) == visited.end())) {
 					if (isSolved(temp))
+					{
+						goodLevel = true;
 						return cSol + get<3>(dirs[i]);
+					}
 					open.push(make_tuple(temp, cSol + get<3>(dirs[i]), x + dx, y + dy));
 					visited.insert(temp);
 				}
 			}
 			else if (move(x, y, dx, dy, temp) && (visited.find(temp) == visited.end())) {
 				if (isSolved(temp))
+				{
+					goodLevel = true;
 					return cSol + get<2>(dirs[i]);
+				}
 				open.push(make_tuple(temp, cSol + get<2>(dirs[i]), x + dx, y + dy));
 				visited.insert(temp);
 			}
 		}
 	}
-
+	goodLevel = false;
 	return "No solution";
-
 }

@@ -23,6 +23,7 @@ public:
 	struct State{
 		int currentState[11][11];
 	};
+	bool goodLevel = false;
 private:
 	int px,py;
 	std::vector<std::vector<int>> sState{ 11,std::vector<int>(11,-1) };

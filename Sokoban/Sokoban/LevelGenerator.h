@@ -7,8 +7,8 @@
 #include <iostream>
 
 #define placementCheck 10
-const int tempX = 9;
-const int tempY = 9;
+const int tempX = 3;
+const int tempY = 6;
 const int numBoxGoal = 2;
 
 using namespace std;

@@ -28,6 +28,6 @@ private:
 	const int XWIDE = 11;
 	const int YWIDE = 11;
 
-	LevelGenerator *testLevel;
+	LevelGenerator *generatedLevel;
 };
 

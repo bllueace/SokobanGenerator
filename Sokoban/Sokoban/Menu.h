@@ -1,24 +1,25 @@
-#include <SFML/Graphics.hpp>
-#include "Input.h"
-#include <string.h>
-#include "States.h"
+#ifndef MENU_H
+#define MENU_H
 
-class Menu
+#include "GameState.h"
+
+class Menu : public GameState
 {
 public:
-	Menu(sf::RenderWindow* hwnd, Input* in);
-	~Menu();
+	Menu(StateManager& a_game, sf::Font& font);
+	virtual ~Menu();
 
-	void handleInput();
-	void update();
-	void render();
-	GameState getState();
+	void pause();
+	void resume();
 
+	void event(sf::Time elapsed, sf::Event a_event);
+	void update(sf::Time elapsed, int playerInp);
+	void draw(VirtualScreen& screen);
 
 private:
-	void beginDraw();
-	void endDraw();
-	sf::RenderWindow* window;
-	Input* input;
-	GameState state;
+	sf::Font& font;
+	sf::Text text;
+	sf::Text pressSpace;
 };
+
+#endif // MENU_H
