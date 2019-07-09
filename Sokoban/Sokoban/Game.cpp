@@ -28,19 +28,17 @@ void Game::handleInput()
 
 void Game::initialiseLevel()
 {
-	//cout << "Please enter which level to play (1-5): " << endl;
+	cout << "Please enter which level to play (1-3): " << endl;
 
-	//cin >> playerInp;
+	cin >> playerInp;
 
-	numtried = 0;
+	//numtried = 0;
 
-	do
-	{
+	//do
+	//{
 		numGoals = 0;
 		level.initialize(playerInp);
-		//level.print();
 
-		//change the 2d array to normal array in order to access tilemap
 		int count = 0;
 		for (int i = 0; i < 11; i++)
 		{
@@ -59,24 +57,22 @@ void Game::initialiseLevel()
 				count++;
 			}
 		}
-
 		for (int i = 0; i < 11; i++)
 		{
 			for (int j = 0; j < 11; j++)
 			{
-				//levelData[i][j] = level.getContent(i, j);
 				levelData[i][j] = set[i][j];
 			}
 		}
 
-		solver.getCurrentState(levelData);
-		solver.solve();
-		numtried++;
-	} while (!solver.goodLevel);
+	//	solver.getCurrentState(levelData);
+	//	solver.solve();
+	//	numtried++;
+	//} while (!solver.goodLevel);
 
 	
 
-	cout << "Number of levels tried: " << numtried << endl;
+	//cout << "Number of levels tried: " << numtried << endl;
 	//load tilemap from an array
 	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 		return;
@@ -476,12 +472,7 @@ void Game::event(sf::Time elapsed, sf::Event a_event)
 {
 	if (a_event.type == sf::Event::KeyPressed)
 	{
-		if (a_event.key.code == sf::Keyboard::Space)
-		{
-			std::cout << "Frame time: " << elapsed.asMilliseconds() << std::endl;
-
-			game.changeState(
-				std::unique_ptr<GameState>(new Menu(game, font)));
-		}
+		if (a_event.key.code == sf::Keyboard::BackSpace)
+			game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
 	}
 }

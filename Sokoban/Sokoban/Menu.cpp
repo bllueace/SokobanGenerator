@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Game.h"
+#include "LevelGenerator.h"
 Menu::Menu(StateManager& a_game, sf::Font& a_font) :
 	GameState(a_game),
 	font(a_font)
@@ -59,7 +60,7 @@ void Menu::event(sf::Time elapsed, sf::Event a_event)
 		if (a_event.key.code == sf::Keyboard::Enter)
 			game.changeState(std::unique_ptr<GameState>(new Game(game, font)));
 		if(a_event.key.code == sf::Keyboard::R)
-			game.changeState(std::unique_ptr<GameState>(new Game(game, font)));
+			game.changeState(std::unique_ptr<GameState>(new LevelGenerator(game, font)));
 	}
 
 }

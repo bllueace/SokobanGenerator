@@ -7,7 +7,6 @@ typedef std::chrono::steady_clock the_clock;
 #include <iostream>
 #include "StateManager.h"
 #include "Menu.h"
-#include "Input.h"
 #include "Game.h"
 #define SCREEN_WIDTH 704
 #define SCREEN_HEIGHT 704
@@ -20,7 +19,6 @@ int main()
 	StateManager game(window, screen);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
-	Input input;
 	int playerInp = 0;
 	sf::Font font;
 	if (!font.loadFromFile("font/arial.ttf"))

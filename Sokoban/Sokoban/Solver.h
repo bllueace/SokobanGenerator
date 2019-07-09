@@ -1,3 +1,6 @@
+#ifndef SOLVER_H
+#define SOLVER_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,7 +11,7 @@
 #include <array>
 
 #include <list>
-#include "Level.h"
+
 using namespace std;
 
 class Solver
@@ -30,5 +33,4 @@ private:
 	std::vector<std::vector<int>> dState{ 11,std::vector<int>(11,-1) };
 
 };
-
-
+#endif //SOLVER_H

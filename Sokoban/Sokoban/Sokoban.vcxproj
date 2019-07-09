@@ -152,14 +152,12 @@
     <ClInclude Include="ExampleStateB.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="Input.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelGenerator.h" />
     <ClInclude Include="levelTemplates.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="StateManager.h" />
-    <ClInclude Include="States.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="VirtualScreen.h" />
   </ItemGroup>
@@ -168,7 +166,6 @@
     <ClCompile Include="ExampleStateB.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="main.cpp" />

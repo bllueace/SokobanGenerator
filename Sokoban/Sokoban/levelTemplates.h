@@ -1,6 +1,8 @@
 #pragma once
 #include <array>
+
 using namespace std;
+
 struct templateShapes
 {
 	array<array<char, 5>, 5> shape1 =

@@ -1,24 +1,38 @@
-#pragma once
+#ifndef LEVELGENERATOR_H
+#define LEVELGENERATOR_H
+
+#include "Solver.h"
+
 #include <stdlib.h>
 #include <time.h> 
 #include "levelTemplates.h"
 #include <list>
 #include <algorithm>
-#include <iostream>
 #include <fstream>      // std::ofstream
 #include <iosfwd>
 #include <vector>
+#include <chrono>
+#include <condition_variable>
+#include "GameState.h"
+#include "Menu.h"
 
+
+
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+typedef std::chrono::steady_clock the_clock;
+
+using namespace std;
 #define placementCheck 10
 const int tempX = 9;
 const int tempY = 9;
 const int numBoxGoal = 2;
 
-using namespace std;
-class LevelGenerator
+
+class LevelGenerator :public GameState
 {
 public:
-	LevelGenerator();
+	LevelGenerator(StateManager& a_game, sf::Font& a_font);
 	~LevelGenerator();
 	void makeLevel();
 	int random(int min, int max);
@@ -37,6 +51,15 @@ public:
 	bool checkCorneredBoxes(int x, int y);
 	void addBoxes(int numBox);
 	void saveGenLevels();
+
+	void event(sf::Time elapsed, sf::Event a_event);
+	void update(sf::Time elapsed, int playerInp);
+	void draw(VirtualScreen& screen);
+	void pause();
+	void resume();
+
+	void prepareLevelForSolver();
+
 private:
 	array<array<char, 11>, 11> emptyLevel;
 	array<array<int, 11>, 11> lev;
@@ -48,4 +71,22 @@ private:
 	int counter = 0;
 
 	int num = 1;
+
+private:
+	std::vector<std::vector<int>> numericalLevel{ 11,std::vector<int>(11,-1) };
+
+	sf::Font& font;
+	sf::Text numLevels;
+	sf::Text numBoxes;
+	sf::Text generate;
+	sf::Text goBack;
+	sf::RectangleShape bgr1;
+	sf::Texture menuBackground1;
+	Solver solver;
+
+	string solution;
+
+	int time_taken;
 };
+
+#endif //LEVELGENERATOR_H

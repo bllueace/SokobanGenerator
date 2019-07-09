@@ -13,7 +13,7 @@
 #include "Solver.h"
 #include "TileMap.h"
 #include "GameState.h"
-#include "Input.h"
+
 using namespace std; 
 struct Player
 {
@@ -59,7 +59,6 @@ private:
 	int set[11][11];
 	int numGoals = 0;
 	Player playerPos;
-	Input* input;
 	int numtried = 0;
 };
 

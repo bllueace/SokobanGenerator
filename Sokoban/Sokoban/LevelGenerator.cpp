@@ -4,11 +4,46 @@
 #include <queue>
 #include <iomanip>
 #include <string>
+#include <memory>
+#include <iostream>
 
-LevelGenerator::LevelGenerator()
+LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
+	GameState(a_game),
+	font(a_font)
 {
 	templates = new templateShapes;
 	srand(time(NULL));
+
+	menuBackground1.loadFromFile("gfx/MainMenu.png");
+	bgr1.setTexture(&menuBackground1);
+	bgr1.setSize(sf::Vector2f(720, 704));
+
+	numLevels.setFont(font);
+	numLevels.setString("Press 'ENTER' to select num levels (hard coded)");
+	numLevels.setCharacterSize(20);
+	numLevels.setFillColor(sf::Color::Red);
+	numLevels.setPosition(250, 200);
+
+	numBoxes.setFont(font);
+	numBoxes.setString("Press '<->' to select num boxes (hard coded)");
+	numBoxes.setCharacterSize(20);
+	numBoxes.setFillColor(sf::Color::Red);
+	numBoxes.setPosition(250, 250);
+
+	generate.setFont(font);
+	generate.setString("Press 'ENTER' to generate levels");
+	generate.setCharacterSize(20);
+	generate.setFillColor(sf::Color::Red);
+	generate.setPosition(250, 300);
+
+	goBack.setFont(font);
+	goBack.setString("Press 'BACKSPACE' to go back");
+	goBack.setCharacterSize(20);
+	goBack.setFillColor(sf::Color::Red);
+	goBack.setPosition(250, 350);
+
+	makeLevel();
+
 }
 
 LevelGenerator::~LevelGenerator()
@@ -21,15 +56,24 @@ void LevelGenerator::makeLevel()
 
 	for (int i = 0; i < 3; i++)
 	{
-		do
+		the_clock::time_point start = the_clock::now();
+		do 
 		{
-			generateLevel(tempX, tempY);
-		} while (!contFloor(emptyLevel));
-		addPlayer();
-		addGoals(numBoxGoal);
-		addBoxes(numBoxGoal);
-		print(emptyLevel);
-
+			do
+			{
+				generateLevel(tempX, tempY);
+			} while (!contFloor(emptyLevel));
+			addPlayer();
+			addGoals(numBoxGoal);
+			addBoxes(numBoxGoal);
+			print(emptyLevel);
+			prepareLevelForSolver();
+			solver.getCurrentState(numericalLevel);
+			solution  = solver.solve();
+			cout << endl << solution;
+		} while (!solver.goodLevel);
+		the_clock::time_point end = the_clock::now();
+		time_taken = duration_cast<milliseconds>(end - start).count();
 		saveGenLevels();
 	}
 }
@@ -496,24 +540,99 @@ void LevelGenerator::saveGenLevels()
 {
 	string filename;
 
-	filename = "Level " + to_string(num);
+	//filename = "Level " + to_string(num);
+	filename = to_string(num);
 	filename += ".txt";
 	ofstream levels("levels\\" + filename, ofstream::out);
 
 	//ofs.open("test.txt");
 
-	levels << "Level " + to_string(num) << endl;
+	//levels << "Level " + to_string(num) << endl;
+	levels << to_string(num) << endl;
 
 	for (int count = 0; count < 11; count++)
 	{
 		for (int index = 0; index < 11; index++)
 		{
-			levels << emptyLevel[count][index] << " ";
+			levels << emptyLevel[count][index]; // <<  " " 
 		}
 		levels << endl;
 	}
 
+	levels << endl << endl << "Solution: ";
+	levels << endl  << solution;
+	levels << endl << endl << "Complete solution took: " << time_taken << "ms.";
+
+
 	levels.close();
 
 	num++;
+}
+
+void LevelGenerator::update(sf::Time elapsed, int playerInp)
+{
+
+}
+
+void LevelGenerator::draw(VirtualScreen & screen)
+{
+	screen.draw(bgr1);
+	screen.draw(numLevels);
+	screen.draw(numBoxes);
+	screen.draw(generate);
+	screen.draw(goBack);
+}
+
+void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
+{
+	if (a_event.type == sf::Event::KeyPressed)
+	{
+		if (a_event.key.code == sf::Keyboard::BackSpace)
+			game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+	}
+}
+void LevelGenerator::pause()
+{
+
+}
+
+void LevelGenerator::resume()
+{
+
+}
+void LevelGenerator::prepareLevelForSolver()
+{
+	for (int i = 0; i < 11; i++)
+	{
+		for (int j = 0; j < 11; j++)
+		{
+			switch (emptyLevel[i][j])
+			{
+			case ' ': //Empty
+				numericalLevel[i][j] = 0;
+				break;
+			case '#': //walls
+				numericalLevel[i][j] = 1;
+				break;
+			case '$': //Box
+				numericalLevel[i][j] = 2;
+				break;
+			case '.': //Goal
+				numericalLevel[i][j] = 3;
+				break;
+			case '@': //Player
+				numericalLevel[i][j] = 4;
+				break;
+			case '?': //Box on goal
+				numericalLevel[i][j] = 5;
+				break;
+			case '+': //Player on goal
+				numericalLevel[i][j] = 6;
+				break;
+			case '*': // outside environment
+				numericalLevel[i][j] = 1;
+				break;
+			}
+		}
+	}
 }

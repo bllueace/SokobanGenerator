@@ -1,4 +1,7 @@
-#pragma once
+#ifndef LEVEL_H
+#define LEVEL_H
+
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -27,7 +30,8 @@ private:
 	int push;
 	const int XWIDE = 11;
 	const int YWIDE = 11;
+	array<array<int, 11>, 11> lev;
 
 	LevelGenerator *generatedLevel;
 };
-
+#endif //LEVEL_H
