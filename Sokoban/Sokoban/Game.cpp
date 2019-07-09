@@ -30,14 +30,14 @@ void Game::initialiseLevel()
 {
 	cout << "Please enter which level to play (1-3): " << endl;
 
-	cin >> playerInp;
+	cin >> numLevel;
 
 	//numtried = 0;
 
 	//do
 	//{
 		numGoals = 0;
-		level.initialize(playerInp);
+		level.initialize(numLevel);
 
 		int count = 0;
 		for (int i = 0; i < 11; i++)
@@ -71,6 +71,50 @@ void Game::initialiseLevel()
 	//} while (!solver.goodLevel);
 
 	
+
+	//cout << "Number of levels tried: " << numtried << endl;
+	//load tilemap from an array
+	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
+		return;
+}
+
+void Game::nextLevel()
+{
+	numGoals = 0;
+	level.initialize(numLevel);
+
+	int count = 0;
+	for (int i = 0; i < 11; i++)
+	{
+		for (int j = 0; j < 11; j++)
+		{
+			if (level.getContent(i, j) == 4)
+			{
+				playerPos.x = i;
+				playerPos.y = j;
+			}
+
+			if (level.getContent(i, j) == 3)
+				numGoals++;
+
+			set[i][j] = level.getContent(i, j);
+			count++;
+		}
+	}
+	for (int i = 0; i < 11; i++)
+	{
+		for (int j = 0; j < 11; j++)
+		{
+			levelData[i][j] = set[i][j];
+		}
+	}
+
+	//	solver.getCurrentState(levelData);
+	//	solver.solve();
+	//	numtried++;
+	//} while (!solver.goodLevel);
+
+
 
 	//cout << "Number of levels tried: " << numtried << endl;
 	//load tilemap from an array
@@ -389,7 +433,7 @@ void Game::update(sf::Time elapsed,int playerInp)
 			}
 
 			resetTile(playerPos.x, playerPos.y);
-			playerPos.y++;
+				playerPos.y++;
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
@@ -400,6 +444,13 @@ void Game::update(sf::Time elapsed,int playerInp)
 	if (numGoals <= 0)
 	{
 		cout << "All goals reached" << endl;
+		cout << "Press Enter to Continue";
+		char temp = 'x';
+		while (temp != '\n')
+			cin.get(temp);
+
+		numLevel++;
+		nextLevel();
 	}
 }
 
@@ -474,5 +525,7 @@ void Game::event(sf::Time elapsed, sf::Event a_event)
 	{
 		if (a_event.key.code == sf::Keyboard::BackSpace)
 			game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+		if (a_event.key.code == sf::Keyboard::R)
+			nextLevel();
 	}
 }

@@ -42,6 +42,7 @@ public:
 	void runSolution();
 	void handleInput();
 	void initialiseLevel();
+	void nextLevel();
 	void resetTile(int x, int y);
 private:
 	sf::Font& font;
@@ -51,7 +52,7 @@ private:
 	TileMap map;
 	Level level;
 	Solver solver;
-	int playerInp = 99;
+	int numLevel = 0;
 	sf::Text playerText;
 	std::vector<std::vector<int>> levelData{ 11,std::vector<int>(11,-1) };
 

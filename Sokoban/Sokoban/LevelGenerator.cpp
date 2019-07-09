@@ -19,7 +19,7 @@ LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	bgr1.setSize(sf::Vector2f(720, 704));
 
 	numLevels.setFont(font);
-	numLevels.setString("Press 'ENTER' to select num levels (hard coded)");
+	numLevels.setString("Press '<->' to select num levels (hard coded)");
 	numLevels.setCharacterSize(20);
 	numLevels.setFillColor(sf::Color::Red);
 	numLevels.setPosition(250, 200);
@@ -31,7 +31,7 @@ LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	numBoxes.setPosition(250, 250);
 
 	generate.setFont(font);
-	generate.setString("Press 'ENTER' to generate levels");
+	generate.setString("Press 'R' to generate levels");
 	generate.setCharacterSize(20);
 	generate.setFillColor(sf::Color::Red);
 	generate.setPosition(250, 300);

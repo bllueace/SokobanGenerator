@@ -1,18 +1,18 @@
 3
 ***********
-*###      *
-*### $    *
-*###   . .*
-*      #  *
-*      #  *
-*  #   #  *
-* @ #  ###*
-*  $   ###*
-*  #  ####*
+*####    .*
+*#        *
+*#        *
+*         *
+* .       *
+*   $  ## *
+*   #   @ *
+* # #  $# *
+*   ###   *
 ***********
 
 
 Solution: 
-dRRdrUUUUUluRRlluRRRRurD
+rddllUluulLLdlUrrrrdRRlddrruUUUUUU
 
-Complete solution took: 854ms.
+Complete solution took: 1900ms.
