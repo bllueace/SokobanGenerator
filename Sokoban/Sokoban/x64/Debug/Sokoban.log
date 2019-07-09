@@ -55,4 +55,67 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           [
               T=float
           ]
+  Level.cpp
+  LevelGenerator.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(48): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Menu.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(34): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(35): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(36): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(37): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(40): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(41): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(42): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+  Solver.cpp
+  Generating Code...
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe
