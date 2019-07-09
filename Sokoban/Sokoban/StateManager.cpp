@@ -70,9 +70,6 @@ void StateManager::loop()
 						playerMove = 3;
 					else if (a_event.key.code == sf::Keyboard::Right)
 						playerMove = 4;
-
-					if (a_event.key.code == sf::Keyboard::Escape)
-						window.close();
 				}
 				//pressed = true;
 				break;

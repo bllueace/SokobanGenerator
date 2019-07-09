@@ -3,8 +3,6 @@
 #include <xutility>
 #include <queue>
 #include <iomanip>
-#include <string>
-#include <iosfwd>
 
 LevelGenerator::LevelGenerator()
 {
@@ -19,33 +17,47 @@ LevelGenerator::~LevelGenerator()
 
 void LevelGenerator::makeLevel()
 {
+	//bool valid = false;;
+	////set generated level size
+//LOOP:generateLevel(tempX, tempY);
+//
+//	if (contFloor(emptyLevel))
+//	{
+//		addPlayer();
+//		//cin.get();
+//		addGoals(numBoxGoal);
+//		//cin.get();
+//		addBoxes(numBoxGoal);
+//		print(emptyLevel);
+//	}
+//	else
+//	{
+//		system("CLS");
+//		cout << "Bad Level..." << endl;
+//		//goto LOOP;
+//	}
 
-	for (int i = 0; i < 3; i++)
+//	int count_tries = 0;
+
+	do
 	{
+		generateLevel(tempX, tempY);
+		//system("CLS");
+		//cout << "Bad Level..." << endl;
 
+		//count_tries++;
+		//cout << count_tries << endl;
 
-		do
-		{
-			generateLevel(tempX, tempY);
-			//system("CLS");
-			//cout << "Bad Level..." << endl;
-
-			//count_tries++;
-			//cout << count_tries << endl;
-
-			//if (count_tries > 500)
-			//{
-			//	print(emptyLevel);
-			//	system("pause");
-			//}
-		} while (!contFloor(emptyLevel));
-		addPlayer();
-		addGoals(numBoxGoal);
-		addBoxes(numBoxGoal);
-		print(emptyLevel);
-
-		saveGenLevels();
-	}
+		//if (count_tries > 500)
+		//{
+		//	print(emptyLevel);
+		//	system("pause");
+		//}
+	} while (!contFloor(emptyLevel));
+	addPlayer();
+	addGoals(numBoxGoal);
+	addBoxes(numBoxGoal);
+	print(emptyLevel);
 }
 
 int LevelGenerator::random(int min, int max)
@@ -114,6 +126,7 @@ void LevelGenerator::generateLevel(int height, int width)
 	{
 		for (int j = 0; j < 11; j++)
 		{
+			emptyLevel[i][j] = '0';
 		}
 	}
 	int count = 0;
@@ -349,7 +362,7 @@ bool LevelGenerator::contFloor(array<array<char, 11>, 11> level)
 				lev[i][j] = -1;
 				num_spaces++;
 				break;
-			case '*':
+			case '0':
 				lev[i][j] = -9;
 			}
 		}
@@ -458,20 +471,20 @@ void LevelGenerator::addGoals(int numGoals)
 bool LevelGenerator::checkCorneredBoxes(int x, int y)
 {
 	//check top right corner
-	if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '*') &&
-		(emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '*'))
+	if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0') &&
+		(emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0'))
 		return false;
 	//check bottom right corner
-	else if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '*')
-		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '*'))
+	else if ((emptyLevel[x + 1][y] == '#' || emptyLevel[x + 1][y] == '0')
+		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0'))
 		return false;
 	//check bottom left corner
-	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '*')
-		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '*'))
+	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
+		&& (emptyLevel[x][y + 1] == '#' || emptyLevel[x][y + 1] == '0'))
 		return false;
 	//check top left corner
-	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '*')
-		&& (emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '*'))
+	else if ((emptyLevel[x - 1][y] == '#' || emptyLevel[x - 1][y] == '0')
+		&& (emptyLevel[x][y - 1] == '#' || emptyLevel[x][y - 1] == '0'))
 		return false;
 
 	return true;
@@ -503,30 +516,4 @@ void LevelGenerator::addBoxes(int numBox)
 			}
 		}
 	}
-}
-
-void LevelGenerator::saveGenLevels()
-{
-	string filename;
-
-	filename = "Level " + to_string(num);
-	filename += ".txt";
-	ofstream levels("levels\\" + filename, ofstream::out);
-
-	//ofs.open("test.txt");
-
-	levels << "Level " + to_string(num) << endl;
-
-	for (int count = 0; count < 11; count++)
-	{
-		for (int index = 0; index < 11; index++)
-		{
-			levels << emptyLevel[count][index] << " ";
-		}
-		levels << endl;
-	}
-
-	levels.close();
-
-	num++;
 }

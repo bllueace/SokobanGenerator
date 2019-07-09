@@ -5,12 +5,10 @@
 #include <list>
 #include <algorithm>
 #include <iostream>
-#include <fstream>      // std::ofstream
-#include <iosfwd>
-#include <vector>
+
 #define placementCheck 10
-const int tempX = 9;
-const int tempY = 9;
+const int tempX = 3;
+const int tempY = 6;
 const int numBoxGoal = 2;
 
 using namespace std;
@@ -35,7 +33,6 @@ public:
 	void addGoals(int numGoals);
 	bool checkCorneredBoxes(int x, int y);
 	void addBoxes(int numBox);
-	void saveGenLevels();
 private:
 	array<array<char, 11>, 11> emptyLevel;
 	array<array<int, 11>, 11> lev;
@@ -45,6 +42,4 @@ private:
 	int blockPosY = 1;
 	int shape = 0;
 	int counter = 0;
-
-	int num = 1;
 };

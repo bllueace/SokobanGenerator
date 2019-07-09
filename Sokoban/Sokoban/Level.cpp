@@ -104,7 +104,7 @@ void Level::initialize(int level)
 			case '+': //Player on goal
 				gridVal[i][j] = 6;
 				break;
-			case '*':
+			case '0':
 				gridVal[i][j] = 1; // outside environment
 				break;
 			}

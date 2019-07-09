@@ -476,7 +476,7 @@ void Game::event(sf::Time elapsed, sf::Event a_event)
 {
 	if (a_event.type == sf::Event::KeyPressed)
 	{
-		if (a_event.key.code == sf::Keyboard::BackSpace)
+		if (a_event.key.code == sf::Keyboard::Space)
 		{
 			std::cout << "Frame time: " << elapsed.asMilliseconds() << std::endl;
 
