@@ -55,4 +55,91 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
           [
               T=float
           ]
+  Level.cpp
+  LevelGenerator.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(10): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\levelgenerator.cpp(68): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Menu.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(34): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(35): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(36): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(37): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(40): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(41): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(42): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+  Solver.cpp
+  StateManager.cpp
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\statemanager.cpp(11): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\statemanager.cpp(10): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+  Generating Code...
+  LINK : C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe not found or not built by the last incremental link; performing full link
+main.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'main.obj' or at 'C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\vc141.pdb'; linking object as if no debug info
+GameState.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'GameState.obj' or at 'C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\vc141.pdb'; linking object as if no debug info
+ExampleStateB.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'ExampleStateB.obj' or at 'C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\vc141.pdb'; linking object as if no debug info
+ExampleStateA.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'ExampleStateA.obj' or at 'C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\vc141.pdb'; linking object as if no debug info
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Debug\Sokoban.exe
