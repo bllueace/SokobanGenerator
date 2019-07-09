@@ -1,4 +1,4 @@
-﻿  Game.cpp
+﻿  Menu.cpp
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(34): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
           with
           [
@@ -47,140 +47,6 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\t
               T=float
           ]
 c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-  GameState.cpp
-  main.cpp
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(34): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(35): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(36): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(37): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(40): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(41): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(42): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-  Menu.cpp
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(34): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(35): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(36): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(37): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(40): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(41): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(42): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\tilemap.h(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-  StateManager.cpp
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\statemanager.cpp(11): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-          and
-          [
-              T=float
-          ]
-c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\statemanager.cpp(10): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -190,6 +56,8 @@ c:\users\blueace\documents\visual studio 2017\sokobangenerator\sokoban\sokoban\s
               T=float
           ]
   Generating code
-  All 816 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 832 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Sokoban.vcxproj -> C:\Users\Blueace\Documents\Visual Studio 2017\SokobanGenerator\Sokoban\x64\Release\Sokoban.exe

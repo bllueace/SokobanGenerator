@@ -137,7 +137,7 @@ void StateManager::event(sf::Time elapsed, sf::Event a_event)
 void StateManager::update(sf::Time elapsed, int playerInp)
 {
 	// Call update() on the Game itself
-	//update(elapsed);
+	//update(elapsed,playerInp);
 
 	// Call update() on the current state
 	if (!states.empty())
@@ -172,7 +172,7 @@ void StateManager::maintainAspectRatio(sf::View& view, sf::RenderWindow& window)
 	float viewHeightFrac;
 
 	// Determine the ratios of viewport size to window size which will
-	// maintain the viewport's aspect ratio
+	// maintain the view ports aspect ratio
 	if (winRatio > viewRatio)
 	{
 		// If the view is "narrower" in ratio than the window

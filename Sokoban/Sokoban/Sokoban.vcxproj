@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ExampleStateA.h" />
+    <ClInclude Include="ExampleStateB.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Input.h" />
@@ -162,6 +164,8 @@
     <ClInclude Include="VirtualScreen.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ExampleStateA.cpp" />
+    <ClCompile Include="ExampleStateB.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Input.cpp" />

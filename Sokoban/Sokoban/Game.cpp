@@ -2,6 +2,7 @@
 #include <memory>
 #include <iostream>
 #include "Menu.h"
+#include "ExampleStateA.h"
 Game::Game(StateManager& a_game, sf::Font& a_font) :
 	GameState(a_game),
 	font(a_font)
@@ -23,41 +24,6 @@ Game::Game(StateManager& a_game, sf::Font& a_font) :
 
 void Game::handleInput()
 {
-	//if (input->isKeyDown(sf::Keyboard::Right) && !pressed)
-	//{
-	//	pressed = true;
-	//	playerInp = 4;
-	//}
-	//else
-	//	playerInp = 0;
-	//if (input->isKeyDown(sf::Keyboard::Left) && !pressed)
-	//{
-	//	pressed = true;
-	//	playerInp = 3;
-	//}
-	//else
-	//	playerInp = 0;
-	//if (input->isKeyDown(sf::Keyboard::Up) && !pressed)
-	//{
-	//	pressed = true;
-	//	playerInp = 2;
-	//}
-	//else
-	//	playerInp = 0;
-	//if (input->isKeyDown(sf::Keyboard::Down) && !pressed)
-	//{
-	//	pressed = true;
-	//	playerInp = 1;
-	//}
-	//else
-	//	playerInp = 0;
-	//if (input->isKeyDown(sf::Keyboard::Right) == false ||
-	//	input->isKeyDown(sf::Keyboard::Left) == false ||
-	//	input->isKeyDown(sf::Keyboard::Up) == false ||
-	//	input->isKeyDown(sf::Keyboard::Down) == false)
-	//{
-	//	pressed = false;
-	//}
 }
 
 void Game::initialiseLevel()
@@ -508,25 +474,14 @@ void Game::resume()
 
 void Game::event(sf::Time elapsed, sf::Event a_event)
 {
-		//switch (a_event.type)
-		//{
-		//case sf::Event::KeyPressed:
-		//	if (a_event.type == sf::Event::KeyPressed)
-		//	{
-		//		//player movement
-		//		if (a_event.key.code == sf::Keyboard::Down)
-		//			playerInp = 1;
-		//		else if (a_event.key.code == sf::Keyboard::Up)
-		//			playerInp = 2;
-		//		else if (a_event.key.code == sf::Keyboard::Left)
-		//			playerInp = 3;
-		//		else if (a_event.key.code == sf::Keyboard::Right)
-		//			playerInp = 4;
-		//		else
-		//			playerInp = 0;
+	if (a_event.type == sf::Event::KeyPressed)
+	{
+		if (a_event.key.code == sf::Keyboard::Space)
+		{
+			std::cout << "Frame time: " << elapsed.asMilliseconds() << std::endl;
 
-		//	}
-		//	//pressed = true;
-		//	break;
-		//}
+			game.changeState(
+				std::unique_ptr<GameState>(new Menu(game, font)));
+		}
+	}
 }

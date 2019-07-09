@@ -18,8 +18,12 @@ public:
 
 private:
 	sf::Font& font;
-	sf::Text text;
-	sf::Text pressSpace;
+	sf::Text startGame;
+	sf::Text generateLevels;
+	sf::Text goToCreddits;
+	sf::Text quitGame;
+	sf::RectangleShape bgr1;
+	sf::Texture menuBackground1;
 };
 
 #endif // MENU_H

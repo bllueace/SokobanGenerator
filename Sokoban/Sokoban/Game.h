@@ -44,7 +44,7 @@ public:
 	void initialiseLevel();
 	void resetTile(int x, int y);
 private:
-	sf::Font font;
+	sf::Font& font;
 	queue<char> solution;
 	sf::RenderWindow* window;
 	//GameState state;
