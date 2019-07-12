@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="button.h" />
     <ClInclude Include="ExampleStateA.h" />
     <ClInclude Include="ExampleStateB.h" />
     <ClInclude Include="Game.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="VirtualScreen.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="ExampleStateA.cpp" />
     <ClCompile Include="ExampleStateB.cpp" />
     <ClCompile Include="Game.cpp" />

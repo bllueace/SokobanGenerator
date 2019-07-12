@@ -54,7 +54,12 @@ void StateManager::loop()
 
 			if (a_event.type == sf::Event::Closed)
 			{
-				window.close();
+				//quit the game and delete all current levels
+				std::string command = "del /Q ";
+				std::string path = "levels\\*.txt";
+				system(command.append(path).c_str());
+				exit(EXIT_FAILURE);
+				//window.close();
 			}
 			switch (a_event.type)
 			{

@@ -16,18 +16,16 @@
 #include "GameState.h"
 #include "Menu.h"
 
-
-
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
 typedef std::chrono::steady_clock the_clock;
 
 using namespace std;
 #define placementCheck 10
-const int tempX = 9;
-const int tempY = 9;
-const int numBoxGoal = 2;
-
+#define MAX_NUMBER 6
+//const int tempX = 9;
+//const int tempY = 9;
+//const int numBoxGoal = 2;
 
 class LevelGenerator :public GameState
 {
@@ -57,8 +55,10 @@ public:
 	void draw(VirtualScreen& screen);
 	void pause();
 	void resume();
-
 	void prepareLevelForSolver();
+	void MoveUp();
+	void MoveDown();
+	int getPressedItem() { return selectedItem; }
 
 private:
 	array<array<char, 11>, 11> emptyLevel;
@@ -76,10 +76,6 @@ private:
 	std::vector<std::vector<int>> numericalLevel{ 11,std::vector<int>(11,-1) };
 
 	sf::Font& font;
-	sf::Text numLevels;
-	sf::Text numBoxes;
-	sf::Text generate;
-	sf::Text goBack;
 	sf::RectangleShape bgr1;
 	sf::Texture menuBackground1;
 	Solver solver;
@@ -87,6 +83,12 @@ private:
 	string solution;
 
 	int time_taken;
+	int selectedItem;
+	sf::Text menu[MAX_NUMBER];
+	int numLevels = 3;
+	int numBoxGoal = 2;
+	int tempY = 3;
+	int tempX = 6;
 };
 
 #endif //LEVELGENERATOR_H

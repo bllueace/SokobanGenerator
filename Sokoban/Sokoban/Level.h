@@ -17,7 +17,7 @@ class Level
 {
 public:
 	Level();
-	void initialize(int);
+	bool initialize(int);
 	bool initalized = false;
 	int getContent(int i, int j);
 	void print();

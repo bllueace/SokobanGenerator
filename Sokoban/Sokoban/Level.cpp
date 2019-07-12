@@ -11,7 +11,7 @@ Level::Level()
 
 }
 
-void Level::initialize(int level)
+bool Level::initialize(int level)
 {
 
 	//string filename;
@@ -29,6 +29,7 @@ void Level::initialize(int level)
 		ip.open("levels/" + to_string(level) + ".txt");
 		if (ip.fail())
 		{
+			return false;
 			cerr << "Error opening level #" << level << ". Check if file is corrupted\n";
 		}
 		ip >> t;
@@ -85,7 +86,7 @@ void Level::initialize(int level)
 		//initalized = true;
 		ip.close();
 	}
-
+	return true;
 	//cout << gridVal[1][1];
 
 	//generatedLevel = new LevelGenerator;

@@ -7,14 +7,14 @@ Game::Game(StateManager& a_game, sf::Font& a_font) :
 	GameState(a_game),
 	font(a_font)
 {
-	//state = GameState::LEVEL;
-	//Load font if needed
-	//if (!font.loadFromFile("font/arial.ttf"))
-	//{
-	//	MessageBox(NULL, L"Failed to load font", L"Error", MB_OK);
-	//}
-	initialiseLevel();
+	ui[0].setFont(font);
+	ui[0].setCharacterSize(30);
+	ui[0].setFillColor(sf::Color::Blue);
+	ui[0].setString("Level: " + to_string(numLevel));
+	ui[0].setPosition(sf::Vector2f(292,20));
 
+
+	initialiseLevel();
 }
 
 //GameState Game::getState()
@@ -28,16 +28,25 @@ void Game::handleInput()
 
 void Game::initialiseLevel()
 {
-	cout << "Please enter which level to play (1-3): " << endl;
+	//cout << "Please enter which level to play (1-3): " << endl;
 
-	cin >> numLevel;
+	//cin >> numLevel;
 
 	//numtried = 0;
 
 	//do
 	//{
 		numGoals = 0;
-		level.initialize(numLevel);
+		if (!level.initialize(numLevel))
+	//	{
+			////game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+			//noLevels.setFont(font);
+			//noLevels.setCharacterSize(30);
+			//noLevels.setFillColor(sf::Color::Red);
+			//noLevels.setString("No levels have been generated. \n Press BACKSPACE to go back.");
+			//noLevels.setPosition(sf::Vector2f(WIDTH / 2 - 250, HEIGHT / 2-100));
+			return;
+		//}
 
 		int count = 0;
 		for (int i = 0; i < 11; i++)
@@ -140,7 +149,11 @@ void Game::resetTile(int x, int y)
 void Game::update(sf::Time elapsed,int playerInp)
 {
 	//handleInput();
-	
+	if (!level.initialize(numLevel))
+	{
+		game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+		return;
+	}
 	switch (playerInp)
 	{
 		//move down
@@ -443,13 +456,9 @@ void Game::update(sf::Time elapsed,int playerInp)
 	//TODO: if level cleared run a function
 	if (numGoals <= 0)
 	{
-		cout << "All goals reached" << endl;
-		cout << "Press Enter to Continue";
-		char temp = 'x';
-		while (temp != '\n')
-			cin.get(temp);
-
+		//cout << "All goals reached" << endl;
 		numLevel++;
+		ui[0].setString("Level: " + to_string(numLevel));
 		nextLevel();
 	}
 }
@@ -457,6 +466,9 @@ void Game::update(sf::Time elapsed,int playerInp)
 void Game::draw(VirtualScreen& screen)
 {
 	screen.draw(map);
+	screen.draw(noLevels);
+	if (level.initialize(numLevel))
+	screen.draw(ui[0]);
 }
 
 //void Game::render()

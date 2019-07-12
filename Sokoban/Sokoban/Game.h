@@ -52,7 +52,7 @@ private:
 	TileMap map;
 	Level level;
 	Solver solver;
-	int numLevel = 0;
+	int numLevel = 1;
 	sf::Text playerText;
 	std::vector<std::vector<int>> levelData{ 11,std::vector<int>(11,-1) };
 
@@ -61,6 +61,9 @@ private:
 	int numGoals = 0;
 	Player playerPos;
 	int numtried = 0;
+
+	sf::Text noLevels;
+	sf::Text ui[3];
 };
 
 #endif //GAME_H

@@ -1,8 +1,3 @@
-#include <chrono>
-using std::chrono::duration_cast;
-using std::chrono::milliseconds;
-typedef std::chrono::steady_clock the_clock;
-
 #include <memory>
 #include <iostream>
 #include "StateManager.h"
@@ -21,7 +16,7 @@ int main()
 	window.setFramerateLimit(60);
 	int playerInp = 0;
 	sf::Font font;
-	if (!font.loadFromFile("font/arial.ttf"))
+	if (!font.loadFromFile("font/SEVESBRG.ttf"))
 	{
 		return -1;
 	}

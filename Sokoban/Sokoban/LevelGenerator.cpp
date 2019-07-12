@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <stdio.h>
 
 LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	GameState(a_game),
@@ -18,32 +19,39 @@ LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	bgr1.setTexture(&menuBackground1);
 	bgr1.setSize(sf::Vector2f(720, 704));
 
-	numLevels.setFont(font);
-	numLevels.setString("Press '<->' to select num levels (hard coded)");
-	numLevels.setCharacterSize(20);
-	numLevels.setFillColor(sf::Color::Red);
-	numLevels.setPosition(250, 200);
 
-	numBoxes.setFont(font);
-	numBoxes.setString("Press '<->' to select num boxes (hard coded)");
-	numBoxes.setCharacterSize(20);
-	numBoxes.setFillColor(sf::Color::Red);
-	numBoxes.setPosition(250, 250);
 
-	generate.setFont(font);
-	generate.setString("Press 'R' to generate levels");
-	generate.setCharacterSize(20);
-	generate.setFillColor(sf::Color::Red);
-	generate.setPosition(250, 300);
+	menu[0].setFont(font);
+	menu[0].setFillColor(sf::Color::Blue);
+	menu[0].setCharacterSize(40);
+	menu[0].setString("Num Levels: " + to_string(numLevels));
+	menu[0].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
-	goBack.setFont(font);
-	goBack.setString("Press 'BACKSPACE' to go back");
-	goBack.setCharacterSize(20);
-	goBack.setFillColor(sf::Color::Red);
-	goBack.setPosition(250, 350);
+	menu[1].setFont(font);
+	menu[1].setFillColor(sf::Color::Red);
+	menu[1].setString("Size X:" + to_string(tempX));
+	menu[1].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.3));
 
-	makeLevel();
+	menu[2].setFont(font);
+	menu[2].setFillColor(sf::Color::Red);
+	menu[2].setString("Size Y:" + to_string(tempY));
+	menu[2].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.6));
 
+	menu[3].setFont(font);
+	menu[3].setFillColor(sf::Color::Red);
+	menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+	menu[3].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.9));
+
+	menu[4].setFont(font);
+	menu[4].setFillColor(sf::Color::Red);
+	menu[4].setString("Generate");
+	menu[4].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.2));
+
+	menu[5].setFont(font);
+	menu[5].setFillColor(sf::Color::Red);
+	menu[5].setString("Back");
+	menu[5].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.5));
+	//makeLevel();
 }
 
 LevelGenerator::~LevelGenerator()
@@ -54,7 +62,7 @@ LevelGenerator::~LevelGenerator()
 void LevelGenerator::makeLevel()
 {
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < numLevels; i++)
 	{
 		the_clock::time_point start = the_clock::now();
 		do 
@@ -577,10 +585,10 @@ void LevelGenerator::update(sf::Time elapsed, int playerInp)
 void LevelGenerator::draw(VirtualScreen & screen)
 {
 	screen.draw(bgr1);
-	screen.draw(numLevels);
-	screen.draw(numBoxes);
-	screen.draw(generate);
-	screen.draw(goBack);
+	for (int i = 0; i < MAX_NUMBER; i++)
+	{
+		screen.draw(menu[i]);
+	}
 }
 
 void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
@@ -589,6 +597,87 @@ void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
 	{
 		if (a_event.key.code == sf::Keyboard::BackSpace)
 			game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+		if (a_event.key.code == sf::Keyboard::Down)
+			MoveDown();
+		if (a_event.key.code == sf::Keyboard::Up)
+			MoveUp();
+		if (a_event.key.code == sf::Keyboard::Enter)
+		{
+			switch (getPressedItem())
+			{
+			default:
+				break;
+			case 4:
+				makeLevel();
+				break;
+			case 5:
+				game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
+				break;
+			}
+		}
+		switch (getPressedItem())
+		{
+		default:
+			break;
+		case 0:
+			if (a_event.key.code == sf::Keyboard::Right)
+				if (numLevels < 5)
+				{
+					numLevels++;
+					menu[0].setString("Num Levels: " + to_string(numLevels));
+				}
+			if (a_event.key.code == sf::Keyboard::Left)
+				if (numLevels > 1)
+				{
+					numLevels--;
+					menu[0].setString("Num Levels: " + to_string(numLevels));
+				}
+			break;
+		case 1:
+			if (a_event.key.code == sf::Keyboard::Right)
+				if (tempX < 9)
+				{
+					tempX += 3;
+					menu[1].setString("Size X:" + to_string(tempX));
+				}
+			if (a_event.key.code == sf::Keyboard::Left)
+				if (tempX > 3)
+				{
+					tempX -= 3;
+					menu[1].setString("Size X:" + to_string(tempX));
+				}
+			break;
+		case 2:
+			if (a_event.key.code == sf::Keyboard::Right)
+				if (tempY < 9)
+				{
+					tempY += 3;
+					menu[2].setString("Size Y:" + to_string(tempY));
+				}
+			if (a_event.key.code == sf::Keyboard::Left)
+				if (tempY > 3)
+				{
+					tempY -= 3;
+					menu[2].setString("Size Y:" + to_string(tempY));
+				}
+			break;
+		case 3: 
+			if (a_event.key.code == sf::Keyboard::Right)
+				if (numBoxGoal < 4)
+				{
+					numBoxGoal++;
+					menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+				}
+			if (a_event.key.code == sf::Keyboard::Left)
+				if (numBoxGoal > 1)
+				{
+					numBoxGoal--;
+					menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+				}
+			break;
+		}
+
+
 	}
 }
 void LevelGenerator::pause()
@@ -600,6 +689,7 @@ void LevelGenerator::resume()
 {
 
 }
+
 void LevelGenerator::prepareLevelForSolver()
 {
 	for (int i = 0; i < 11; i++)
@@ -634,5 +724,30 @@ void LevelGenerator::prepareLevelForSolver()
 				break;
 			}
 		}
+	}
+}
+
+void LevelGenerator::MoveUp()
+{
+	if (selectedItem - 1 >= 0)
+	{
+		menu[selectedItem].setFillColor(sf::Color::Red);
+		menu[selectedItem].setCharacterSize(20);
+		selectedItem--;
+		menu[selectedItem].setFillColor(sf::Color::Blue);
+		menu[selectedItem].setCharacterSize(40);
+	}
+}
+
+void LevelGenerator::MoveDown()
+{
+	if (selectedItem + 1 < MAX_NUMBER)
+	{
+		menu[selectedItem].setFillColor(sf::Color::Red);		
+		menu[selectedItem].setCharacterSize(20);
+		selectedItem++;
+		menu[selectedItem].setFillColor(sf::Color::Blue);
+		menu[selectedItem].setCharacterSize(40);
+
 	}
 }
