@@ -90,7 +90,9 @@ void Menu::event(sf::Time elapsed, sf::Event a_event)
 				//quit the game and delete all current levels
 				std::string command = "del /Q ";
 				std::string path = "levels\\*.txt";
-				system(command.append(path).c_str());
+				int rv = system(command.append(path).c_str());
+				std::cout << rv << std::endl;
+				system("pause");
 				exit(EXIT_FAILURE);
 				break;
 			}

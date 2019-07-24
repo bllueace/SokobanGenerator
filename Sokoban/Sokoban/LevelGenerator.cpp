@@ -59,6 +59,7 @@ LevelGenerator::~LevelGenerator()
 	delete templates;
 }
 
+//#pragma optimize("", off)
 void LevelGenerator::makeLevel()
 {
 
@@ -86,6 +87,7 @@ void LevelGenerator::makeLevel()
 	}
 }
 
+//#pragma optimize("", on)
 int LevelGenerator::random(int min, int max)
 {
 	static bool first = true;
