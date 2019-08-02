@@ -19,7 +19,10 @@ LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	bgr1.setTexture(&menuBackground1);
 	bgr1.setSize(sf::Vector2f(720, 704));
 
-
+	for (int i = 0; i < MAX_NUMBER_OF_ITEMS-1; i++)
+	{
+		menu[i].setCharacterSize(25);
+	}
 
 	menu[0].setFont(font);
 	menu[0].setFillColor(sf::Color::Blue);
@@ -30,27 +33,34 @@ LevelGenerator::LevelGenerator(StateManager& a_game, sf::Font& a_font) :
 	menu[1].setFont(font);
 	menu[1].setFillColor(sf::Color::Red);
 	menu[1].setString("Size X:" + to_string(tempX));
-	menu[1].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.3));
+	menu[1].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.4));
 
 	menu[2].setFont(font);
 	menu[2].setFillColor(sf::Color::Red);
 	menu[2].setString("Size Y:" + to_string(tempY));
-	menu[2].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.6));
+	menu[2].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.8));
 
 	menu[3].setFont(font);
 	menu[3].setFillColor(sf::Color::Red);
 	menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
-	menu[3].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.9));
+	menu[3].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.2));
 
 	menu[4].setFont(font);
 	menu[4].setFillColor(sf::Color::Red);
 	menu[4].setString("Generate");
-	menu[4].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.2));
+	menu[4].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.6));
 
 	menu[5].setFont(font);
 	menu[5].setFillColor(sf::Color::Red);
 	menu[5].setString("Back");
-	menu[5].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.5));
+	menu[5].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+
+	menu[6].setFont(font);
+	menu[6].setFillColor(sf::Color::Red);
+	menu[6].setCharacterSize(20);
+	menu[6].setString("WARNING!!! Can take several minutes to generate this size.");
+	menu[6].setPosition(sf::Vector2f( 20, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 5.3));
+
 	//makeLevel();
 }
 
@@ -63,27 +73,45 @@ LevelGenerator::~LevelGenerator()
 void LevelGenerator::makeLevel()
 {
 
-	for (int i = 0; i < numLevels; i++)
+	for (int i = 0; i < numLevels; i++) 
 	{
 		the_clock::time_point start = the_clock::now();
-		do 
+		do //while the level is not solvable
 		{
-			do
+			do // while there are no boxes that cant reach a goal on the sides
 			{
-				generateLevel(tempX, tempY);
-			} while (!contFloor(emptyLevel));
-			addPlayer();
-			addGoals(numBoxGoal);
-			addBoxes(numBoxGoal);
-			print(emptyLevel);
+				do //while there are more than one closed off rooms
+				{
+					generateLevel(tempX, tempY);
+					//prepareLevelForSolver();
+
+				} while (!contFloor(emptyLevel));//&& !noTrappedFloors()
+
+				addPlayer();
+				addBoxes(numBoxGoal);
+				addGoals(numBoxGoal);
+				print(emptyLevel);
+				noGoalNextToWallBox++;
+			} while (!checkStuckBoxes());
+
 			prepareLevelForSolver();
 			solver.getCurrentState(numericalLevel);
 			solution  = solver.solve();
 			cout << endl << solution;
+			//keep track of number of levels tried
+			attempts++;
 		} while (!solver.goodLevel);
 		the_clock::time_point end = the_clock::now();
 		time_taken = duration_cast<milliseconds>(end - start).count();
+		time_taken = time_taken / 1000;
 		saveGenLevels();
+		writeTestData("Test.csv", time_taken,i+1, true);
+
+		//reset data gathering variables
+		shapesTried = 0;
+		attempts = 0;
+		noGoalNextToWallBox = 0;
+		trapedBox = 0;
 	}
 }
 
@@ -189,15 +217,16 @@ void LevelGenerator::generateLevel(int height, int width)
 		if (blockPosY > width - 1)
 			return;
 
-		count++;
-		//return if cant find a suitable shape
-		if (count > 10000)
-			generateLevel(tempX, tempY);
+		//count++;
+		////return if cant find a suitable shape
+		//if (count > 10000)
+		//	generateLevel(tempX, tempY);
 	}
 }
 
 void LevelGenerator::getRandomShape()
 {
+	shapesTried++;
 	shape = rand() % 17 + 1;
 	//shape = 7;
 	switch (shape)
@@ -518,6 +547,109 @@ bool LevelGenerator::checkCorneredBoxes(int x, int y)
 	return true;
 }
 
+bool LevelGenerator::checkStuckBoxes()
+{
+	//the values might seem wrong but because the array gets oriented at one point it gets a bit funky
+
+	int wallBoxCount = 0;
+	int wallGoalCount = 0;
+	bool left = false, right = false, top = false, bottom = false;
+	//check left row
+	for (int i = 0; i <= tempX+1; i++)
+	{
+		if (emptyLevel[i][1] == '$')
+			wallBoxCount++;
+		if (emptyLevel[i][1] == '.')
+			wallGoalCount++;
+	}
+	if (wallGoalCount >= wallBoxCount)
+		left = true;
+
+	wallBoxCount = 0;
+	wallGoalCount = 0;
+	//check bottom?
+	for (int i = 0; i <= tempY+1; i++)
+	{
+		if (emptyLevel[tempX][i] == '$')
+			wallBoxCount++;
+		if (emptyLevel[tempX][i] == '.')
+			wallGoalCount++;
+
+	}
+	if (wallGoalCount >= wallBoxCount)
+		bottom = true;
+
+	wallBoxCount = 0;
+	wallGoalCount = 0;
+	//check top row
+	for (int i = 0; i <= tempY+1; i++)
+	{
+		if (emptyLevel[1][i] == '$')
+			wallBoxCount++;
+		if (emptyLevel[1][i] == '.')
+			wallGoalCount++;
+
+	}
+	if (wallGoalCount >= wallBoxCount)
+		top = true;
+
+	wallBoxCount = 0;
+	wallGoalCount = 0;
+	//check right row
+	for (int i = 0; i <= tempX+1; i++)
+	{
+
+		if (emptyLevel[i][tempY] == '$')
+			wallBoxCount++;
+		if (emptyLevel[i][tempY] == '.')
+			wallGoalCount++;
+	}
+	if (wallGoalCount >= wallBoxCount)
+		right = true;
+
+	wallBoxCount = 0;
+	wallGoalCount = 0;
+
+	if (top && bottom && left && right)
+		return true;
+	else
+		return false;
+}
+
+bool LevelGenerator::noTrappedFloors()
+{
+	for (int i = 0; i <= tempX + 1; i++)
+	{
+		for (int j = 0; j <= tempY + 1; j++)
+		{
+			if (numericalLevel[i][j] == 0)
+			{
+				wallCount = 0;
+				if (numericalLevel[i + 1][j] == 1)
+					wallCount++;
+				else
+					wallCount++;
+				if (numericalLevel[i - 1][j] == 1)
+					wallCount++;
+				else
+					wallCount++;
+				if (numericalLevel[i][j + 1] == 1)
+					wallCount++;
+				else
+					wallCount++;
+				if (numericalLevel[i][j - 1] == 1)
+					wallCount++;
+				else
+					wallCount++;
+
+				if (wallCount > 2)
+					return false;
+			}
+		}
+	}
+	return true;
+}
+
 void LevelGenerator::addBoxes(int numBox)
 {
 	//const int rows = std::extent<decltype(emptyLevel), 0>::value;
@@ -526,8 +658,8 @@ void LevelGenerator::addBoxes(int numBox)
 	//int count = 0;
 	while (!placed)
 	{
-		int x = random(1, placementCheck - 2);
-		int y = random(1, placementCheck - 2);
+		int x = random(1, tempX ); // was  - 2
+		int y = random(1, tempY ); // was - 2
 
 		if (emptyLevel[x][y] == ' ')
 		{
@@ -543,6 +675,7 @@ void LevelGenerator::addBoxes(int numBox)
 				placed = true;
 			}
 		}
+		trapedBox++;
 	}
 }
 
@@ -587,9 +720,15 @@ void LevelGenerator::update(sf::Time elapsed, int playerInp)
 void LevelGenerator::draw(VirtualScreen & screen)
 {
 	screen.draw(bgr1);
-	for (int i = 0; i < MAX_NUMBER; i++)
+	for (int i = 0; i < MAX_NUMBER-1; i++)
 	{
 		screen.draw(menu[i]);
+	}
+	if ((tempX >= 9 && tempY >= 6 && numBoxGoal >= 4) ||
+		(tempY >= 9 && tempX >=6 && numBoxGoal >= 4) ||
+		(tempX == 9 && tempY == 9 && numBoxGoal >= 4) || (numBoxGoal == 5))
+	{
+		screen.draw(menu[6]);
 	}
 }
 
@@ -603,6 +742,16 @@ void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
 			MoveDown();
 		if (a_event.key.code == sf::Keyboard::Up)
 			MoveUp();
+		if (a_event.key.code == sf::Keyboard::Escape)
+		{
+			//quit the game and delete all current levels
+			std::string command = "del /Q ";
+			std::string path = "levels\\*.txt";
+			system(command.append(path).c_str());
+			//std::cout << rv << std::endl;
+			//system("pause");
+			exit(EXIT_FAILURE);
+		}
 		if (a_event.key.code == sf::Keyboard::Enter)
 		{
 			switch (getPressedItem())
@@ -645,8 +794,17 @@ void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
 			if (a_event.key.code == sf::Keyboard::Left)
 				if (tempX > 3)
 				{
-					tempX -= 3;
-					menu[1].setString("Size X:" + to_string(tempX));
+					if (tempX + tempY > 9)
+					{
+						tempX -= 3;
+						menu[1].setString("Size X:" + to_string(tempX));
+					}
+					if (tempX + tempY < 12)
+					{
+						if (numBoxGoal > 3)
+							numBoxGoal = 3;
+						menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+					}
 				}
 			break;
 		case 2:
@@ -659,29 +817,56 @@ void LevelGenerator::event(sf::Time elapsed, sf::Event a_event)
 			if (a_event.key.code == sf::Keyboard::Left)
 				if (tempY > 3)
 				{
-					tempY -= 3;
-					menu[2].setString("Size Y:" + to_string(tempY));
+					if (tempX + tempY > 9)
+					{
+						tempY -= 3;
+						menu[2].setString("Size Y:" + to_string(tempY));
+					}
+					if (tempX + tempY < 12)
+					{
+						if (numBoxGoal > 3)
+							numBoxGoal = 3;
+						menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+					}
 				}
 			break;
 		case 3: 
 			if (a_event.key.code == sf::Keyboard::Right)
-				if (numBoxGoal < 4)
+			{
+				if (tempY + tempX >= 12)
 				{
-					numBoxGoal++;
-					menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+					if (numBoxGoal < 5)
+					{
+						numBoxGoal++;
+						menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+					}
 				}
+				if (tempX + tempY <= 9)
+				{
+					if (numBoxGoal < 3)
+					{
+						numBoxGoal++;
+						menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
+					}
+				}
+
+			}
 			if (a_event.key.code == sf::Keyboard::Left)
+			{
 				if (numBoxGoal > 1)
 				{
 					numBoxGoal--;
 					menu[3].setString("Num Boxes: " + to_string(numBoxGoal));
 				}
+
+			}
 			break;
 		}
 
 
 	}
 }
+
 void LevelGenerator::pause()
 {
 
@@ -734,7 +919,7 @@ void LevelGenerator::MoveUp()
 	if (selectedItem - 1 >= 0)
 	{
 		menu[selectedItem].setFillColor(sf::Color::Red);
-		menu[selectedItem].setCharacterSize(20);
+		menu[selectedItem].setCharacterSize(25);
 		selectedItem--;
 		menu[selectedItem].setFillColor(sf::Color::Blue);
 		menu[selectedItem].setCharacterSize(40);
@@ -743,13 +928,42 @@ void LevelGenerator::MoveUp()
 
 void LevelGenerator::MoveDown()
 {
-	if (selectedItem + 1 < MAX_NUMBER)
+	if (selectedItem + 1 < MAX_NUMBER-1)
 	{
 		menu[selectedItem].setFillColor(sf::Color::Red);		
-		menu[selectedItem].setCharacterSize(20);
+		menu[selectedItem].setCharacterSize(25);
 		selectedItem++;
 		menu[selectedItem].setFillColor(sf::Color::Blue);
 		menu[selectedItem].setCharacterSize(40);
 
 	}
+}
+
+void LevelGenerator::writeTestData(const std::string& name, const float& content,int levelNum, bool append /*= false*/)
+{
+	std::ofstream outfile;
+
+	if (append)
+	{
+		outfile.open(name, std::ios_base::app);
+
+	}
+	else
+		outfile.open(name);
+
+	if (!excelFileCreated)
+	{
+		outfile<<"\n" << "Levels" << "," << "Time Taken/ms" << "," << "Levels Tested" << 
+			"," << "Trapped" << "," << "Unreachable" << "," << "Shapes Tried " << "\n";
+		//outfile.close();
+		excelFileCreated = true;
+	}
+
+	outfile << "Level: " << levelNum;
+	outfile << "," << content;
+	outfile << "," << attempts;
+	outfile << "," << trapedBox;
+	outfile << "," << noGoalNextToWallBox;
+	outfile << "," << shapesTried << endl;
+
 }

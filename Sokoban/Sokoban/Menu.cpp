@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "LevelGenerator.h"
+#include "Credits.h"
 Menu::Menu(StateManager& a_game, sf::Font& a_font) :
 	GameState(a_game),
 	font(a_font)
@@ -20,24 +21,29 @@ Menu::Menu(StateManager& a_game, sf::Font& a_font) :
 
 	menu[0].setFont(font);
 	menu[0].setFillColor(sf::Color::Blue);
-	menu[0].setString("Play");
-	menu[0].setCharacterSize(50);
+	menu[0].setString("Play Pre-made");
+	menu[0].setCharacterSize(45);
 	menu[0].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
 	menu[1].setFont(font);
 	menu[1].setFillColor(sf::Color::Red);
-	menu[1].setString("Generate");
+	menu[1].setString("Play Generated");
 	menu[1].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1.5));
 
 	menu[2].setFont(font);
 	menu[2].setFillColor(sf::Color::Red);
-	menu[2].setString("Credits");
+	menu[2].setString("Generate");
 	menu[2].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	menu[3].setFont(font);
 	menu[3].setFillColor(sf::Color::Red);
-	menu[3].setString("Exit");
+	menu[3].setString("Controls");
 	menu[3].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2.5));
+
+	menu[4].setFont(font);
+	menu[4].setFillColor(sf::Color::Red);
+	menu[4].setString("Exit");
+	menu[4].setPosition(sf::Vector2f(WIDTH / 2 - 50, HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 3));
 
 	selectedItem = 0;
 }
@@ -69,6 +75,16 @@ void Menu::event(sf::Time elapsed, sf::Event a_event)
 			MoveDown();
 		if (a_event.key.code == sf::Keyboard::Up)
 			MoveUp();
+		if (a_event.key.code == sf::Keyboard::Escape)
+		{
+			//quit the game and delete all current levels
+			std::string command = "del /Q ";
+			std::string path = "levels\\*.txt";
+			system(command.append(path).c_str());
+			//std::cout << rv << std::endl;
+			//system("pause");
+			exit(EXIT_FAILURE);
+		}
 		if (a_event.key.code == sf::Keyboard::Enter)
 		{
 			switch (getPressedItem())
@@ -77,22 +93,26 @@ void Menu::event(sf::Time elapsed, sf::Event a_event)
 				break;
 			case 0:
 				//std::cout << "Play button has been pressed" << std::endl;
-				game.changeState(std::unique_ptr<GameState>(new Game(game, font)));
+				game.changeState(std::unique_ptr<GameState>(new Game(game, font, true)));
 				break;
 			case 1:
+				//std::cout << "Play button has been pressed" << std::endl;
+				game.changeState(std::unique_ptr<GameState>(new Game(game, font, false)));
+				break;
+			case 2:
 				//std::cout << "Generate button has been pressed" << std::endl;
 				game.changeState(std::unique_ptr<GameState>(new LevelGenerator(game, font)));
 				break;
-			case 2:
-				std::cout << "Credits button has been pressed" << std::endl;
-				break;
 			case 3:
+				game.changeState(std::unique_ptr<GameState>(new Credits(game, font)));
+				break;
+			case 4:
 				//quit the game and delete all current levels
 				std::string command = "del /Q ";
 				std::string path = "levels\\*.txt";
-				int rv = system(command.append(path).c_str());
-				std::cout << rv << std::endl;
-				system("pause");
+				system(command.append(path).c_str());
+				//std::cout << rv << std::endl;
+				//system("pause");
 				exit(EXIT_FAILURE);
 				break;
 			}
@@ -124,7 +144,7 @@ void Menu::MoveUp()
 		menu[selectedItem].setCharacterSize(30);
 		selectedItem--;
 		menu[selectedItem].setFillColor(sf::Color::Blue);
-		menu[selectedItem].setCharacterSize(50);
+		menu[selectedItem].setCharacterSize(45);
 	}
 }
 
@@ -136,6 +156,6 @@ void Menu::MoveDown()
 		menu[selectedItem].setCharacterSize(30);
 		selectedItem++;
 		menu[selectedItem].setFillColor(sf::Color::Blue);
-		menu[selectedItem].setCharacterSize(50);
+		menu[selectedItem].setCharacterSize(45);
 	}
 }

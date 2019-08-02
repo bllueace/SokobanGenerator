@@ -2,8 +2,8 @@
 #include <memory>
 #include <iostream>
 #include "Menu.h"
-#include "ExampleStateA.h"
-Game::Game(StateManager& a_game, sf::Font& a_font) :
+
+Game::Game(StateManager& a_game, sf::Font& a_font, bool genORno) :
 	GameState(a_game),
 	font(a_font)
 {
@@ -13,6 +13,7 @@ Game::Game(StateManager& a_game, sf::Font& a_font) :
 	ui[0].setString("Level: " + to_string(numLevel));
 	ui[0].setPosition(sf::Vector2f(292,20));
 
+	genOrNo = genORno;
 
 	initialiseLevel();
 }
@@ -37,7 +38,7 @@ void Game::initialiseLevel()
 	//do
 	//{
 		numGoals = 0;
-		if (!level.initialize(numLevel))
+		if (!level.initialize(numLevel, genOrNo))
 	//	{
 			////game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
 			//noLevels.setFont(font);
@@ -90,7 +91,7 @@ void Game::initialiseLevel()
 void Game::nextLevel()
 {
 	numGoals = 0;
-	level.initialize(numLevel);
+	level.initialize(numLevel, genOrNo);
 
 	int count = 0;
 	for (int i = 0; i < 11; i++)
@@ -146,10 +147,10 @@ void Game::resetTile(int x, int y)
 	}
 }
 
-void Game::update(sf::Time elapsed,int playerInp)
+void Game::update(sf::Time elapsed, int playerInp)
 {
 	//handleInput();
-	if (!level.initialize(numLevel))
+	if (!level.initialize(numLevel, genOrNo))
 	{
 		game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
 		return;
@@ -171,7 +172,8 @@ void Game::update(sf::Time elapsed,int playerInp)
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
-		else if (set[playerPos.x + 1][playerPos.y] == 2 && set[playerPos.x + 2][playerPos.y] != 1)
+		else if (set[playerPos.x + 1][playerPos.y] == 2 && (set[playerPos.x + 2][playerPos.y] != 1 &&
+			set[playerPos.x + 2][playerPos.y] != 2))
 		{
 			if (set[playerPos.x + 2][playerPos.y] == 0)
 			{
@@ -208,7 +210,7 @@ void Game::update(sf::Time elapsed,int playerInp)
 				return;
 		}
 		else if (set[playerPos.x + 1][playerPos.y] == 5 &&
-			(set[playerPos.x + 2][playerPos.y] != 1 || set[playerPos.x + 2][playerPos.y] != 2))
+			(set[playerPos.x + 2][playerPos.y] != 1 && set[playerPos.x + 2][playerPos.y] != 2))
 		{
 			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x + 1][playerPos.y] = 6;
@@ -244,7 +246,8 @@ void Game::update(sf::Time elapsed,int playerInp)
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
-		else if (set[playerPos.x - 1][playerPos.y] == 2 && set[playerPos.x - 2][playerPos.y] != 1)
+		else if (set[playerPos.x - 1][playerPos.y] == 2 && (set[playerPos.x - 2][playerPos.y] != 1 &&
+			set[playerPos.x - 2][playerPos.y] != 2))
 		{
 			if (set[playerPos.x - 2][playerPos.y] == 0)
 			{
@@ -281,7 +284,7 @@ void Game::update(sf::Time elapsed,int playerInp)
 				return;
 		}
 		else if (set[playerPos.x - 1][playerPos.y] == 5 &&
-			(set[playerPos.x - 2][playerPos.y] != 1 || set[playerPos.x - 2][playerPos.y] != 2))
+			(set[playerPos.x - 2][playerPos.y] != 1 && set[playerPos.x - 2][playerPos.y] != 2))
 		{
 			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x - 1][playerPos.y] = 6;
@@ -317,7 +320,8 @@ void Game::update(sf::Time elapsed,int playerInp)
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
-		else if (set[playerPos.x][playerPos.y - 1] == 2 && set[playerPos.x][playerPos.y - 2] != 1)
+		else if (set[playerPos.x][playerPos.y - 1] == 2 && (set[playerPos.x][playerPos.y - 2] != 1 &&
+			set[playerPos.x][playerPos.y - 2] != 2))
 		{
 
 			if (set[playerPos.x][playerPos.y - 2] == 0)
@@ -355,7 +359,7 @@ void Game::update(sf::Time elapsed,int playerInp)
 				return;
 		}
 		else if (set[playerPos.x][playerPos.y - 1] == 5 &&
-			(set[playerPos.x][playerPos.y - 2] != 1 || set[playerPos.x][playerPos.y - 2] != 2))
+			(set[playerPos.x][playerPos.y - 2] != 1 && set[playerPos.x][playerPos.y - 2] != 2))
 		{
 			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x][playerPos.y - 1] = 6;
@@ -391,7 +395,8 @@ void Game::update(sf::Time elapsed,int playerInp)
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
-		else if (set[playerPos.x][playerPos.y + 1] == 2 && set[playerPos.x][playerPos.y + 2] != 1)
+		else if (set[playerPos.x][playerPos.y + 1] == 2 && (set[playerPos.x][playerPos.y + 2] != 1 &&
+			set[playerPos.x][playerPos.y + 2] != 2))
 		{
 
 			if (set[playerPos.x][playerPos.y + 2] == 0)
@@ -429,7 +434,7 @@ void Game::update(sf::Time elapsed,int playerInp)
 				return;
 		}
 		else if (set[playerPos.x][playerPos.y + 1] == 5 &&
-			(set[playerPos.x][playerPos.y + 2] != 1 || set[playerPos.x][playerPos.y + 2] != 2))
+			(set[playerPos.x][playerPos.y + 2] != 1 && set[playerPos.x][playerPos.y + 2] != 2))
 		{
 			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x][playerPos.y + 1] = 6;
@@ -446,14 +451,13 @@ void Game::update(sf::Time elapsed,int playerInp)
 			}
 
 			resetTile(playerPos.x, playerPos.y);
-				playerPos.y++;
+			playerPos.y++;
 			if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 				return;
 		}
 		break;
 	}
 
-	//TODO: if level cleared run a function
 	if (numGoals <= 0)
 	{
 		//cout << "All goals reached" << endl;
@@ -467,29 +471,9 @@ void Game::draw(VirtualScreen& screen)
 {
 	screen.draw(map);
 	screen.draw(noLevels);
-	if (level.initialize(numLevel))
+	if (level.initialize(numLevel, genOrNo))
 	screen.draw(ui[0]);
 }
-
-//void Game::render()
-//{
-//	//begin draw
-//	beginDraw();
-//	//draw everything
-//	window->draw(map);
-//	//end draw
-//	endDraw();
-//}
-
-//void Game::beginDraw()
-//{
-//	window->clear(sf::Color::Black);
-//}
-//
-//void Game::endDraw()
-//{
-//	window->display();
-//}
 
 void Game::getSolutionString(string sol)
 {
@@ -539,5 +523,15 @@ void Game::event(sf::Time elapsed, sf::Event a_event)
 			game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
 		if (a_event.key.code == sf::Keyboard::R)
 			nextLevel();
+		if (a_event.key.code == sf::Keyboard::Escape)
+		{
+			//quit the game and delete all current levels
+			std::string command = "del /Q ";
+			std::string path = "levels\\*.txt";
+			system(command.append(path).c_str());
+			//std::cout << rv << std::endl;
+			//system("pause");
+			exit(EXIT_FAILURE);
+		}
 	}
 }

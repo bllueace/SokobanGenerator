@@ -2,7 +2,7 @@
 #define MENU_H
 
 #include "GameState.h"
-#define MAX_NUMBER_OF_ITEMS 4
+#define MAX_NUMBER_OF_ITEMS 5
 #define WIDTH 704
 #define HEIGHT 704
 class Menu : public GameState

@@ -1,0 +1,18 @@
+2
+***********
+*###..#****
+*# @  #****
+*#$$  #****
+*  #.  ****
+* $    ****
+*.  $  ****
+***********
+***********
+***********
+***********
+
+
+Solution: 
+lDRRdrUUdddlldlluRRdRUUUUdllDldRRdrUrrdLLLL
+
+Complete solution took: 50.715ms.

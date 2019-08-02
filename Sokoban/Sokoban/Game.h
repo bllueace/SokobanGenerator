@@ -24,7 +24,7 @@ struct Player
 class Game : public GameState
 {
 public:
-	Game(StateManager& a_game, sf::Font& font);
+	Game(StateManager& a_game, sf::Font& font, bool genORno);
 	virtual ~Game();
 
 	//void update(int playerMove);
@@ -64,6 +64,8 @@ private:
 
 	sf::Text noLevels;
 	sf::Text ui[3];
+
+	bool genOrNo;
 };
 
 #endif //GAME_H

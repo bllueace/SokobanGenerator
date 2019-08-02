@@ -22,10 +22,7 @@ typedef std::chrono::steady_clock the_clock;
 
 using namespace std;
 #define placementCheck 10
-#define MAX_NUMBER 6
-//const int tempX = 9;
-//const int tempY = 9;
-//const int numBoxGoal = 2;
+#define MAX_NUMBER 7
 
 class LevelGenerator :public GameState
 {
@@ -47,6 +44,8 @@ public:
 	void addPlayer();
 	void addGoals(int numGoals);
 	bool checkCorneredBoxes(int x, int y);
+	bool checkStuckBoxes();
+	bool noTrappedFloors();
 	void addBoxes(int numBox);
 	void saveGenLevels();
 
@@ -59,6 +58,7 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int getPressedItem() { return selectedItem; }
+	void writeTestData(const std::string& name, const float& content,int levelNum, bool append = false);
 
 private:
 	array<array<char, 11>, 11> emptyLevel;
@@ -82,13 +82,22 @@ private:
 
 	string solution;
 
-	int time_taken;
+	float time_taken;
 	int selectedItem;
 	sf::Text menu[MAX_NUMBER];
-	int numLevels = 3;
+	int numLevels = 1;
 	int numBoxGoal = 2;
 	int tempY = 3;
 	int tempX = 6;
+	bool excelFileCreated = false;
+
+	int wallCount = 0;
+	bool tooBig;
+
+	int shapesTried = 0;
+	int attempts = 0;
+	int noGoalNextToWallBox = 0;
+	int trapedBox = 0;
 };
 
 #endif //LEVELGENERATOR_H
