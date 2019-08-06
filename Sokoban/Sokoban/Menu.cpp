@@ -67,10 +67,6 @@ void Menu::event(sf::Time elapsed, sf::Event a_event)
 {
 	if (a_event.type == sf::Event::KeyPressed)
 	{
-		//if (a_event.key.code == sf::Keyboard::Enter)
-			//game.changeState(std::unique_ptr<GameState>(new Game(game, font)));
-		//if(a_event.key.code == sf::Keyboard::R)
-			//game.changeState(std::unique_ptr<GameState>(new LevelGenerator(game, font)));
 		if (a_event.key.code == sf::Keyboard::Down)
 			MoveDown();
 		if (a_event.key.code == sf::Keyboard::Up)

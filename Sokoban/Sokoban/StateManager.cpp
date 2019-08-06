@@ -1,3 +1,7 @@
+//The statemanager template has been taken from github
+//https://github.com/SonarSystems/SFML-2.1-Tutorial-51---Menu-Class/tree/master/TutorialSFML/TutorialSFML
+//all credit goes to the account holder
+
 #include "StateManager.h"
 #include <iostream>
 #include "GameState.h"

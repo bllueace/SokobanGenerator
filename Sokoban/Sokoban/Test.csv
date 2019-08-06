@@ -1,3 +1,30 @@
 
 Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
 Level: 1,62.791,5,145,9,162
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,0.205,1,10,1,18
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,907.127,1,41,4,151
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,24.427,2,59,4,51
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,24.624,4,89,4,74
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,90.233,5,124,7,80
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,0.077,1,2,1,5
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,0.074,1,9,1,17
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,0.49,4,40,8,68
+
+Levels,Time Taken/ms,Levels Tested,Trapped,Unreachable,Shapes Tried 
+Level: 1,0.45,3,36,7,63

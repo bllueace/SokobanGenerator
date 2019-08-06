@@ -6,9 +6,6 @@
 #include <SFML/Window.hpp>
 #include <string>
 #include <iostream>
-#include <queue>
-#include <tuple>
-#include <array>
 #include "Level.h"
 #include "Solver.h"
 #include "TileMap.h"
@@ -26,13 +23,6 @@ class Game : public GameState
 public:
 	Game(StateManager& a_game, sf::Font& font, bool genORno);
 	virtual ~Game();
-
-	//void update(int playerMove);
-	//GameState getState();
-	//void render();
-	//void beginDraw();
-	//void endDraw();
-
 	void pause();
 	void resume();
 	void event(sf::Time elapsed, sf::Event a_event);
@@ -40,7 +30,6 @@ public:
 	void draw(VirtualScreen& screen);
 	void getSolutionString(string sol);
 	void runSolution();
-	void handleInput();
 	void initialiseLevel();
 	void nextLevel();
 	void resetTile(int x, int y);
@@ -48,7 +37,6 @@ private:
 	sf::Font& font;
 	queue<char> solution;
 	sf::RenderWindow* window;
-	//GameState state;
 	TileMap map;
 	Level level;
 	Solver solver;

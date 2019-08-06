@@ -6,13 +6,11 @@
 #include <stdlib.h>
 #include <time.h> 
 #include "levelTemplates.h"
-#include <list>
 #include <algorithm>
 #include <fstream>      // std::ofstream
 #include <iosfwd>
 #include <vector>
 #include <chrono>
-#include <condition_variable>
 #include "GameState.h"
 #include "Menu.h"
 

@@ -7,9 +7,7 @@
 #include <SFML/Window.hpp>
 #include <windows.h>
 #include <string>
-#include <memory>
 #include <iostream>
-#include <list>
 
 #include "LevelGenerator.h"
 

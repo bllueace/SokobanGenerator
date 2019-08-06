@@ -7,47 +7,24 @@ Game::Game(StateManager& a_game, sf::Font& a_font, bool genORno) :
 	GameState(a_game),
 	font(a_font)
 {
+	//initialize ui elements
 	ui[0].setFont(font);
 	ui[0].setCharacterSize(30);
 	ui[0].setFillColor(sf::Color::Blue);
 	ui[0].setString("Level: " + to_string(numLevel));
-	ui[0].setPosition(sf::Vector2f(292,20));
+	ui[0].setPosition(sf::Vector2f(292, 20));
 
+	//assign the bool from main menu that determines if playing player genreated levels or pre generated ones.
 	genOrNo = genORno;
 
 	initialiseLevel();
 }
 
-//GameState Game::getState()
-//{
-//	return state;
-//}
-
-void Game::handleInput()
-{
-}
-
 void Game::initialiseLevel()
 {
-	//cout << "Please enter which level to play (1-3): " << endl;
-
-	//cin >> numLevel;
-
-	//numtried = 0;
-
-	//do
-	//{
 		numGoals = 0;
 		if (!level.initialize(numLevel, genOrNo))
-	//	{
-			////game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
-			//noLevels.setFont(font);
-			//noLevels.setCharacterSize(30);
-			//noLevels.setFillColor(sf::Color::Red);
-			//noLevels.setString("No levels have been generated. \n Press BACKSPACE to go back.");
-			//noLevels.setPosition(sf::Vector2f(WIDTH / 2 - 250, HEIGHT / 2-100));
 			return;
-		//}
 
 		int count = 0;
 		for (int i = 0; i < 11; i++)
@@ -75,15 +52,7 @@ void Game::initialiseLevel()
 			}
 		}
 
-	//	solver.getCurrentState(levelData);
-	//	solver.solve();
-	//	numtried++;
-	//} while (!solver.goodLevel);
-
-	
-
-	//cout << "Number of levels tried: " << numtried << endl;
-	//load tilemap from an array
+	//load tile map from an array
 	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 		return;
 }
@@ -119,14 +88,6 @@ void Game::nextLevel()
 		}
 	}
 
-	//	solver.getCurrentState(levelData);
-	//	solver.solve();
-	//	numtried++;
-	//} while (!solver.goodLevel);
-
-
-
-	//cout << "Number of levels tried: " << numtried << endl;
 	//load tilemap from an array
 	if (!map.load("gfx/UpdatedTileSet.png", sf::Vector2u(64, 64), set, 11, 11))
 		return;
@@ -143,13 +104,11 @@ void Game::resetTile(int x, int y)
 	else if (set[x][y] == 5)
 	{
 		set[x][y] = 3;
-		//numGoals++;
 	}
 }
 
 void Game::update(sf::Time elapsed, int playerInp)
 {
-	//handleInput();
 	if (!level.initialize(numLevel, genOrNo))
 	{
 		game.changeState(std::unique_ptr<GameState>(new Menu(game, font)));
@@ -212,7 +171,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 		else if (set[playerPos.x + 1][playerPos.y] == 5 &&
 			(set[playerPos.x + 2][playerPos.y] != 1 && set[playerPos.x + 2][playerPos.y] != 2))
 		{
-			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x + 1][playerPos.y] = 6;
 			numGoals++;
 			if (set[playerPos.x + 2][playerPos.y] == 3)
@@ -223,7 +181,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 			if (set[playerPos.x + 2][playerPos.y] == 0)
 			{
 				set[playerPos.x + 2][playerPos.y] = 2;
-				//numGoals++;
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -254,11 +211,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				set[playerPos.x - 2][playerPos.y] = 2;
 				if (set[playerPos.x - 1][playerPos.y] == 2)
 					set[playerPos.x - 1][playerPos.y] = 0;
-				//else if (set[playerPos.x - 1][playerPos.y] == 5)
-				//{
-				//	set[playerPos.x - 1][playerPos.y] = 3;
-				//	numGoals--;
-				//}
 			}
 			else if (set[playerPos.x - 2][playerPos.y] == 3)
 			{
@@ -266,11 +218,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				numGoals--;
 				if (set[playerPos.x - 1][playerPos.y] == 2)
 					set[playerPos.x - 1][playerPos.y] = 0;
-				//else if (set[playerPos.x - 1][playerPos.y] == 5)
-				//{
-				//	set[playerPos.x - 1][playerPos.y] = 3;
-				//	numGoals--;
-				//}
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -286,7 +233,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 		else if (set[playerPos.x - 1][playerPos.y] == 5 &&
 			(set[playerPos.x - 2][playerPos.y] != 1 && set[playerPos.x - 2][playerPos.y] != 2))
 		{
-			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x - 1][playerPos.y] = 6;
 			numGoals++;
 			if (set[playerPos.x - 2][playerPos.y] == 3)
@@ -297,7 +243,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 			if (set[playerPos.x - 2][playerPos.y] == 0)
 			{
 				set[playerPos.x - 2][playerPos.y] = 2;
-				//numGoals++;
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -329,11 +274,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				set[playerPos.x][playerPos.y - 2] = 2;
 				if (set[playerPos.x][playerPos.y - 1] == 2)
 					set[playerPos.x][playerPos.y - 1] = 0;
-				//else if (set[playerPos.x][playerPos.y-1] == 5)
-				//{
-				//	set[playerPos.x ][playerPos.y-1] = 3;
-				//	numGoals++;
-				//}
 			}
 			else if (set[playerPos.x][playerPos.y - 2] == 3)
 			{
@@ -341,11 +281,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				numGoals--;
 				if (set[playerPos.x][playerPos.y - 1] == 2)
 					set[playerPos.x][playerPos.y - 1] = 0;
-				//else if (set[playerPos.x ][playerPos.y-1] == 5)
-				//{
-				//	set[playerPos.x ][playerPos.y-1] = 3;
-				//	numGoals++;
-				//}
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -361,7 +296,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 		else if (set[playerPos.x][playerPos.y - 1] == 5 &&
 			(set[playerPos.x][playerPos.y - 2] != 1 && set[playerPos.x][playerPos.y - 2] != 2))
 		{
-			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x][playerPos.y - 1] = 6;
 			numGoals++;
 			if (set[playerPos.x][playerPos.y - 2] == 3)
@@ -372,7 +306,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 			if (set[playerPos.x][playerPos.y - 2] == 0)
 			{
 				set[playerPos.x][playerPos.y - 2] = 2;
-				//numGoals++;
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -404,11 +337,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				set[playerPos.x][playerPos.y + 2] = 2;
 				if (set[playerPos.x][playerPos.y + 1] == 2)
 					set[playerPos.x][playerPos.y + 1] = 0;
-				//else if (set[playerPos.x][playerPos.y + 1] == 5)
-				//{
-				//	set[playerPos.x][playerPos.y + 1] = 3;
-				//	numGoals++;
-				//}
 			}
 			else if (set[playerPos.x][playerPos.y + 2] == 3)
 			{
@@ -416,11 +344,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 				numGoals--;
 				if (set[playerPos.x][playerPos.y + 1] == 2)
 					set[playerPos.x][playerPos.y + 1] = 0;
-				//else if (set[playerPos.x][playerPos.y + 1] == 5)
-				//{
-				//	set[playerPos.x][playerPos.y + 1] = 3;
-				//	numGoals++;
-				//}
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -436,7 +359,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 		else if (set[playerPos.x][playerPos.y + 1] == 5 &&
 			(set[playerPos.x][playerPos.y + 2] != 1 && set[playerPos.x][playerPos.y + 2] != 2))
 		{
-			//resetTile(playerPos.x, playerPos.y);
 			set[playerPos.x][playerPos.y + 1] = 6;
 			numGoals++;
 			if (set[playerPos.x][playerPos.y + 2] == 3)
@@ -447,7 +369,6 @@ void Game::update(sf::Time elapsed, int playerInp)
 			if (set[playerPos.x][playerPos.y + 2] == 0)
 			{
 				set[playerPos.x][playerPos.y + 2] = 2;
-				//numGoals++;
 			}
 
 			resetTile(playerPos.x, playerPos.y);
@@ -458,9 +379,9 @@ void Game::update(sf::Time elapsed, int playerInp)
 		break;
 	}
 
+	//check for level complete
 	if (numGoals <= 0)
 	{
-		//cout << "All goals reached" << endl;
 		numLevel++;
 		ui[0].setString("Level: " + to_string(numLevel));
 		nextLevel();
@@ -490,7 +411,6 @@ void Game::runSolution()
 	{
 		for (int j = 0; j < 11; j++)
 		{
-			//levelData[i][j] = level.getContent(i, j);
 			levelData[i][j] = set[i][j];
 		}
 	}

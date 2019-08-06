@@ -13,15 +13,7 @@ Level::Level()
 
 bool Level::initialize(int level, bool genORno)
 {
-
-	//string filename;
-	//filename = "Level " + to_string(level);
-	//filename += ".txt";
-
-	//int i = 0, j = 0, t;
-	//ifstream lev;
-	//lev.open("levels/" + filename);
-
+	//check if playing player made levels or pre generated ones
 	if (!genORno)
 	{
 		int i = 0, j = 0, t;
@@ -83,10 +75,10 @@ bool Level::initialize(int level, bool genORno)
 				}
 			}
 		}
-		//initalized = true;
 		ip.close();
 	}
 
+	//check if playing player made levels or pre generated ones
 	if (genORno)
 	{
 		int i = 0, j = 0, t;
@@ -148,11 +140,9 @@ bool Level::initialize(int level, bool genORno)
 				}
 			}
 		}
-		//initalized = true;
 		ip.close();
 	}
 	return true;
-
 }
 
 int Level::getContent(int i, int j) {
